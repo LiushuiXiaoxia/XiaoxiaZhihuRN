@@ -10,6 +10,8 @@ import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 
+import cn.mycommons.xiaoxiazhihu.module.AndroidReactPackage;
+
 public class AppReactActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
@@ -24,10 +26,11 @@ public class AppReactActivity extends AppCompatActivity implements DefaultHardwa
                 .setBundleAssetName("index.android.bundle")
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
+                .addPackage(new AndroidReactPackage())
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
-        mReactRootView.startReactApplication(mReactInstanceManager, "MyAwesomeApp", null);
+        mReactRootView.startReactApplication(mReactInstanceManager, "XiaoxiaZhihuRN", null);
 
         setContentView(mReactRootView);
     }
@@ -48,6 +51,13 @@ public class AppReactActivity extends AppCompatActivity implements DefaultHardwa
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onResume(this, this);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mReactInstanceManager.onDestroy();
+        mReactInstanceManager = null;
     }
 
     @Override

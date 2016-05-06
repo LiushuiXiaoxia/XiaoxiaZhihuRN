@@ -15,8 +15,14 @@ public class StartActivity extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartActivity.this, AppReactActivity.class));
+                gotoNext();
             }
         });
+
+        gotoNext();
+    }
+
+    private void gotoNext() {
+        startActivity(new Intent(this, AppReactActivity.class));
     }
 }

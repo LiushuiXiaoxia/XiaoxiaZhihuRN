@@ -9,6 +9,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "react-native": "^0.17.0"
+        "react": "^0.14.8",
+        "react-native": "^0.24.1"
     }
 }
