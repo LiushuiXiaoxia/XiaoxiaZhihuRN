@@ -1,4 +1,12 @@
 apply plugin: 'com.android.application'
+apply from: "react.gradle"
+
+ext {
+    MYAPP_RELEASE_STORE_FILE = 'keystore.jks'
+    MYAPP_RELEASE_KEY_ALIAS = 'xiaoxia'
+    MYAPP_RELEASE_STORE_PASSWORD = 'xiaoxia'
+    MYAPP_RELEASE_KEY_PASSWORD = 'xiaoxia'
+}
 
 android {
     compileSdkVersion 23
@@ -11,11 +19,26 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        release {
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
