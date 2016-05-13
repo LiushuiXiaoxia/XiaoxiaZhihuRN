@@ -1,24 +1,4 @@
-import React, {AppRegistry, Component, StyleSheet, Text, View, Image, TouchableHighlight} from "react-native";
-
-var SettingItemView = React.createClass({
-    render: function () {
-        return (
-            <View style={{padding:10,flexDirection:'row',alignItems:'center',backgroundColor:'#fff'}}>
-                <Image source={this.props.icon} style={{width:20,height:20}}/>
-                <Text style={{marginLeft:10,flex:1}}>{this.props.name}</Text>
-                <Image source={require('image!ic_action_hint')} style={{width:8,height:13}}/>
-            </View>
-        );
-    }
-});
-
-var Space10 = React.createClass({
-    render: function () {
-        return (
-            <View style={{height:10}}/>
-        );
-    }
-});
+import React, {View} from "react-native";
 
 class Line extends React.Component {
 

@@ -36,27 +36,27 @@ public class AppReactActivity extends AppCompatActivity implements DefaultHardwa
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        if (mReactInstanceManager != null) {
-            mReactInstanceManager.onPause();
-        }
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
 
         if (mReactInstanceManager != null) {
-            mReactInstanceManager.onResume(this, this);
+            mReactInstanceManager.onHostResume(this, this);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onHostPause();
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mReactInstanceManager.onDestroy();
+        mReactInstanceManager.onHostDestroy();
         mReactInstanceManager = null;
     }
 
