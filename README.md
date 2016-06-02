@@ -35,16 +35,17 @@
 ### 目录介绍
 
 ```
-|-- app // andorid code 
-|-- React // React Native
-	|--node_module // node_module code
-	|--app // js code
-		|-- data // http api
-		|-- native // android native bridge
-		|-- ui // react naive ui page
-		|-- util // util
-		|-- widget // custom widget
-			|-- native widget//
+|--XiaoxiaZhihuRN
+    |-- android // andorid code
+    |-- ios // andorid code
+    |-- node_module // node_module code
+    |-- React // React Native
+        |-- data // http api
+        |-- native // android native bridge
+        |-- ui // react naive ui page
+        |-- util // util
+        |-- widget // custom widget
+            |-- native widget//
 ```
 
 ### 如何启动React Native
