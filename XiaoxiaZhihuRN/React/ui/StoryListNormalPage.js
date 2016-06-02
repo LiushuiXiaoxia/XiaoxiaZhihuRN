@@ -1,14 +1,13 @@
 'use strict';
 import React, {Component} from "react";
-import {View, Text, Image, ListView, Dimensions, InteractionManager} from "react-native";
+import {View, Text, Image, ListView, Dimensions, InteractionManager, RefreshControl} from "react-native";
 import ToolbarAndroid from "ToolbarAndroid";
 import Api from "../data/HttpApi";
 import Res from "../res/Res";
 import AppStyles from "./AppStyles";
-import AppNavigator from "../App";
+import App from "../App";
 import NativeLog from "../native/NativeLog";
 import StoryListItem from "./StoryListItem";
-import NativeRefreshLayout from "./../widget/native/NativeRefreshLayout";
 
 var styles = AppStyles.StoryHomeListStyle;
 
@@ -23,6 +22,7 @@ class StoryListNormalPage extends React.Component {
             themeDesc: this.props.theme.description,
             // themeImageUrl: this.props.theme.thumbnail,
             renderPlaceholderOnly: true,
+            refreshing: false,
             data: ds.cloneWithRows([])
         };
     }
@@ -43,6 +43,7 @@ class StoryListNormalPage extends React.Component {
                     allThemes = allThemes.concat(respJson.stories);
                 }
                 this.setState({
+                    refreshing: false,
                     themeDesc: respJson.description,
                     themeImageUrl: respJson.background,
                     data: this.state.data.cloneWithRows(allThemes)
@@ -61,7 +62,7 @@ class StoryListNormalPage extends React.Component {
         NativeLog.i("StoryListNormalPage.onItemClick story = " + story.title);
 
         this.props.navigator.push({
-            name: AppNavigator.PAGE_DETAIL,
+            name: App.PAGE_DETAIL,
             params: {
                 story: story
             }
@@ -92,30 +93,37 @@ class StoryListNormalPage extends React.Component {
             );
         } else {
             return (
-                <NativeRefreshLayout
-                    onRefresh={this.onRefresh.bind(this)}
-                    ref={(layout) => {this.swipeRefreshLayout = layout;}}>
-                    <ListView
-                        style={styles.listview}
-                        dataSource={this.state.data}
-                        enableEmptySections={true}
-                        initialListSize={5}
-                        renderHeader={()=>{
-                            return (
-                                <Image
-                                    style={styles.header_image}
-                                    source={{uri: this.state.themeImageUrl}}>
-                                    <Text style={styles.header_text}>{this.state.themeName}</Text>
-                                </Image>
-                            );
-                        }}
-                        renderRow={(rowData)=>{
-                            return (
-                                <StoryListItem story={rowData} onItemClick={this.onItemClick.bind(this)}/>
-                            );
-                        }}
-                    />
-                </NativeRefreshLayout>
+                <ListView
+                    style={styles.listview}
+                    dataSource={this.state.data}
+                    enableEmptySections={true}
+                    initialListSize={5}
+                    renderHeader={()=>{
+                        return (
+                            <Image
+                                style={styles.header_image}
+                                source={{uri: this.state.themeImageUrl}}>
+                                <Text style={styles.header_text}>{this.state.themeName}</Text>
+                            </Image>
+                        );
+                    }}
+                    renderRow={(rowData)=>{
+                        return (
+                            <StoryListItem story={rowData} onItemClick={this.onItemClick.bind(this)}/>
+                        );
+                    }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh.bind(this)}
+                            tintColor='#ff0000'
+                            title='Loading...'
+                            titleColor='#00ff00'
+                            colors={['#ff0000', '#00ff00', '#0000ff']}
+                            progressBackgroundColor='#3F51B5'
+                        />
+                    }
+                />
             );
         }
     }

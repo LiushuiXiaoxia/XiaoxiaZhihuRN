@@ -17,7 +17,7 @@ import Res from "../res/Res";
 import AppUtil from "../util/AppUtil";
 import Api from "./../data/HttpApi";
 import AppStyles from "./AppStyles";
-import AppNavigator from "../App";
+import App from "../App";
 import NativeLog from "../native/NativeLog";
 import NativeToast from "../native/NativeToast";
 
@@ -142,7 +142,7 @@ class StoryDetailPage extends React.Component {
             NativeToast.showShort("收藏")
         } else if (position == 2) {
             this.props.navigator.push({
-                name: AppNavigator.PAGE_COMMENT,
+                name: App.PAGE_COMMENT,
                 params: {
                     story: this.props.story
                 }

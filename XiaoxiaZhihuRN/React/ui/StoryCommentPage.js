@@ -11,7 +11,8 @@ import {
     WebView,
     ScrollView,
     InteractionManager,
-    StyleSheet
+    StyleSheet,
+    RefreshControl
 } from "react-native";
 import ToolbarAndroid from "ToolbarAndroid";
 import NativeLog from "../native/NativeLog";
@@ -20,7 +21,6 @@ import Res from "../res/Res";
 import Api from "../data/HttpApi";
 import StoryCommentItem from "./StoryCommentItem";
 import Line from "../widget/Line";
-import NativeRefreshLayout from "./../widget/native/NativeRefreshLayout";
 
 
 class StoryCommentPage extends React.Component {
@@ -29,6 +29,7 @@ class StoryCommentPage extends React.Component {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
+            refreshing: false,
             renderPlaceholderOnly: true,
             allComments: ds.cloneWithRows([])
         };
@@ -87,6 +88,7 @@ class StoryCommentPage extends React.Component {
             comments.push({num: this.shortComments.length, isLong: false});
             comments.push(...this.shortComments);
             this.setState({
+                refreshing: false,
                 allComments: this.state.allComments.cloneWithRows(comments)
             });
 
@@ -120,34 +122,41 @@ class StoryCommentPage extends React.Component {
             );
         } else {
             return (
-                <NativeRefreshLayout
-                    onRefresh={this.onRefresh.bind(this)}
-                    ref={(layout) => {this.swipeRefreshLayout = layout;}}>
-                    <ListView
-                        style={styles.listview}
-                        dataSource={this.state.allComments}
-                        enableEmptySections={true}
-                        initialListSize={3}
-                        renderRow={(comment)=>{
-                            if (comment.hasOwnProperty('isLong')) {
-                                var text = '';
-                                if (comment.isLong) {
-                                    text = comment.num + '条长评';
-                                } else {
-                                    text = comment.num + '条短评';
-                                }
-                                return (
-                                <View>
-                                    <Text style={{margin:10}}>{text}</Text>
-                                    <Line />
-                                </View>
-                                );
+                <ListView
+                    style={styles.listview}
+                    dataSource={this.state.allComments}
+                    enableEmptySections={true}
+                    initialListSize={3}
+                    renderRow={(comment)=>{
+                        if (comment.hasOwnProperty('isLong')) {
+                            var text = '';
+                            if (comment.isLong) {
+                                text = comment.num + '条长评';
                             } else {
-                                return (<StoryCommentItem comment={comment}/>);
+                                text = comment.num + '条短评';
                             }
-                        }}
-                    />
-                </NativeRefreshLayout>
+                            return (
+                            <View>
+                                <Text style={{margin:10}}>{text}</Text>
+                                <Line />
+                            </View>
+                            );
+                        } else {
+                            return (<StoryCommentItem comment={comment}/>);
+                        }
+                    }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh.bind(this)}
+                            tintColor='#ff0000'
+                            title='Loading...'
+                            titleColor='#00ff00'
+                            colors={['#ff0000', '#00ff00', '#0000ff']}
+                            progressBackgroundColor='#3F51B5'
+                        />
+                    }
+                />
             );
         }
     }

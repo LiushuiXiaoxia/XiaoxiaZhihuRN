@@ -6,17 +6,17 @@
 var {NativeModules} = require('react-native');
 
 var Toast = {
-    SHORT: NativeModules.NativeToast.SHORT,
-    LONG: NativeModules.NativeToast.LONG,
+    // SHORT: NativeModules.NativeToast.SHORT,
+    // LONG: NativeModules.NativeToast.LONG,
 
     show: function (message:string, duration:number):void {
-        NativeModules.NativeToast.show(message, duration);
+        // NativeModules.NativeToast.show(message, duration);
     },
     showLong: function (message:string) {
-        NativeModules.NativeToast.show(message, NativeModules.NativeToast.LONG);
+        // NativeModules.NativeToast.show(message, NativeModules.NativeToast.LONG);
     },
     showShort: function (message:string) {
-        NativeModules.NativeToast.show(message, NativeModules.NativeToast.SHORT);
+        // NativeModules.NativeToast.show(message, NativeModules.NativeToast.SHORT);
     }
 };
 

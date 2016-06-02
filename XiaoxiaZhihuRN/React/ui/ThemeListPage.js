@@ -1,15 +1,14 @@
 'use strict';
 
-import React, {Component } from 'react';
+import React, {Component} from "react";
 import {View, Text, ListView, TouchableHighlight, InteractionManager, RefreshControl} from "react-native";
 import ToolbarAndroid from "ToolbarAndroid";
 import NativeLog from "../native/NativeLog";
 import Res from "../res/Res";
 import Api from "../data/HttpApi";
 import AppStyles from "./AppStyles";
-import AppNavigator from "../App";
+import App from "../App";
 import ThemeListItem from "./ThemeListItem";
-// import NativeRefreshLayout from "../widget/native/NativeRefreshLayout";
 
 var styles = AppStyles.ThemeListStyle;
 
@@ -43,20 +42,20 @@ class ThemeListPage extends React.Component {
                 if (respJson && respJson.others) {
                     allThemes = allThemes.concat(respJson.others);
                 }
+
                 this.setState({
-                    data: this.state.data.cloneWithRows(allThemes)
+                    data: this.state.data.cloneWithRows(allThemes),
+                    refreshing: false
                 });
             })
-            .finally(()=> {
-                this.swipeRefreshLayout && this.swipeRefreshLayout.finishRefresh();
-            });
+            .done();
     }
 
     onItemClick(theme) {
-        NativeLog.i("ThemeListPage.onItemClick theme = " + theme.name);
-        var name = AppNavigator.PAGE_NORMAL_LIST;
+        NativeLog.i('ThemeListPage.onItemClick theme = ' + theme.name);
+        var name = App.PAGE_NORMAL_LIST;
         if (theme.id == -1) {
-            name = AppNavigator.PAGE_HOME_LIST;
+            name = App.PAGE_HOME_LIST;
         }
         // 跳转到对应的主题页面
         this.props.navigator.push({
@@ -72,7 +71,7 @@ class ThemeListPage extends React.Component {
             <View style={styles.container}>
                 <ToolbarAndroid
                     style={Res.styleTitleBar}
-                    title="主题列表"
+                    title='主题列表'
                     titleColor={Res.colorTitleColor}
                 />
                 {this.renderContent()}
@@ -81,21 +80,6 @@ class ThemeListPage extends React.Component {
     }
 
     renderContent() {
-        //     refreshControl={
-        //     <RefreshControl
-        //         refreshing={this.state.refreshing}
-        //         onRefresh={this.onRefresh.bind(this)}
-        //         tintColor="#ff0000"
-        //         title="Loading..."
-        //         titleColor="#00ff00"
-        //         colors={['#ff0000', '#00ff00', '#0000ff']}
-        //         progressBackgroundColor="#ffff00"
-        //     />
-        // }
-
-        var constrants = require('NativeModules').UIManager.AndroidSwipeRefreshLayout;
-        console.log("constrants = " + JSON.stringify(constrants));
-
         if (this.state.renderPlaceholderOnly) {
             return (
                 <View style={{flex:1, justifyContent:'center'}}>
@@ -103,10 +87,6 @@ class ThemeListPage extends React.Component {
                 </View>
             );
         } else {
-            // <NativeRefreshLayout
-            //     onRefresh={this.onRefresh.bind(this)}
-            //     ref={(layout) => {this.swipeRefreshLayout = layout;}}>
-            // </NativeRefreshLayout>
             return (
                 <ListView
                     style={styles.listview}
@@ -114,17 +94,27 @@ class ThemeListPage extends React.Component {
                     enableEmptySections={true}
                     initialListSize={5}
                     renderRow={(rowData)=>{
-                            return (
-                                <ThemeListItem theme={rowData} onItemClick={this.onItemClick.bind(this)}/>
-                            );
-                        }}
+                        return (
+                            <ThemeListItem theme={rowData} onItemClick={this.onItemClick.bind(this)}/>
+                        );
+                    }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh.bind(this)}
+                            tintColor='#ff0000'
+                            title='Loading...'
+                            titleColor='#00ff00'
+                            colors={['#ff0000', '#00ff00', '#0000ff']}
+                            progressBackgroundColor='#3F51B5'
+                        />
+                    }
                 />
             );
         }
     }
 
-    onRefresh() {
-        this.swipeRefreshLayout && this.swipeRefreshLayout.startRefresh();
+    _onRefresh() {
         this.getAllThemes();
     }
 }

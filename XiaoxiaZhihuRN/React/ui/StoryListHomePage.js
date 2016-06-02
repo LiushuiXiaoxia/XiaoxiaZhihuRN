@@ -1,17 +1,16 @@
 'use strict';
 
 import React, {Component} from "react";
-import {View, Text, Image, ListView, InteractionManager, ViewPagerAndroid} from "react-native";
+import {View, Text, Image, ListView, InteractionManager, ViewPagerAndroid, RefreshControl} from "react-native";
 import ToolbarAndroid from "ToolbarAndroid";
 import Api from "../data/HttpApi";
 import AppUtil from "../util/AppUtil";
 import Res from "../res/Res";
 import AppStyles from "./AppStyles";
-import AppNavigator from "../App";
+import App from "../App";
 import NativeLog from "../native/NativeLog";
 import StoryListItem from "./StoryListItem";
 import Line from "./../widget/Line";
-import NativeRefreshLayout from "./../widget/native/NativeRefreshLayout";
 
 var styles = AppStyles.StoryListStyle;
 
@@ -22,6 +21,7 @@ class StoryListHomePage extends React.Component {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             renderPlaceholderOnly: true,
+            refreshing: false,
             topStories: [],
             stories: ds.cloneWithRows([])
         };
@@ -47,6 +47,7 @@ class StoryListHomePage extends React.Component {
                     topStories.push(...respJson['top_stories']);
                 }
                 this.setState({
+                    refreshing: false,
                     topStories: topStories,
                     stories: this.state.stories.cloneWithRows(stories)
                 });
@@ -63,7 +64,7 @@ class StoryListHomePage extends React.Component {
         NativeLog.i("StoryListHomePage.onItemClick story = " + story.title);
 
         this.props.navigator.push({
-            name: AppNavigator.PAGE_DETAIL,
+            name: App.PAGE_DETAIL,
             params: {
                 story: story
             }
@@ -94,9 +95,7 @@ class StoryListHomePage extends React.Component {
             );
         } else {
             return (
-                <NativeRefreshLayout
-                    onRefresh={this.onRefresh.bind(this)}
-                    ref={(layout) => {this.swipeRefreshLayout = layout;}}>
+                <View style={{flex:1, justifyContent:'center'}}>
                     {this.renderHeader()}
                     <Line />
                     <ListView
@@ -107,8 +106,19 @@ class StoryListHomePage extends React.Component {
                         renderRow={(rowData)=>{
                             return (<StoryListItem story={rowData} onItemClick={this.onItemClick.bind(this)}/>);
                         }}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this.onRefresh.bind(this)}
+                                tintColor='#ff0000'
+                                title='Loading...'
+                                titleColor='#00ff00'
+                                colors={['#ff0000', '#00ff00', '#0000ff']}
+                                progressBackgroundColor='#3F51B5'
+                            />
+                        }
                     />
-                </NativeRefreshLayout>
+                </View>
             );
         }
     }
