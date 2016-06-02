@@ -1,6 +1,6 @@
 'use strict';
-
-import React, {Component, Text, View, Image} from "react-native";
+import React, {Component} from "react";
+import {Text, View, Image} from "react-native";
 import Line from "../widget/Line";
 
 class StoryCommentItem extends React.Component {

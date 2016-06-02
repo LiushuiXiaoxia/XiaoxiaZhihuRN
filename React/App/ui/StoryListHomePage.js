@@ -1,6 +1,7 @@
 'use strict';
 
-import React, {View, Text, Image, ListView, InteractionManager, ViewPagerAndroid} from "react-native";
+import React, {Component} from "react";
+import {View, Text, Image, ListView, InteractionManager, ViewPagerAndroid} from "react-native";
 import ToolbarAndroid from "ToolbarAndroid";
 import Api from "../data/HttpApi";
 import AppUtil from "../util/AppUtil";

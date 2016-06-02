@@ -1,16 +1,16 @@
 'use strict';
-
-import React, {Navigator} from "react-native";
+import React, {Component} from "react";
+import {Navigator} from "react-native";
 import BackAndroid from "BackAndroid";
 import buildStyleInterpolator from "buildStyleInterpolator";
 import NativeLog from "./native/NativeLog";
 import NativeToast from "./native/NativeToast";
 import SplashPage from "./ui/SplashPage";
 import ThemeListPage from "./ui/ThemeListPage";
-import StoryListHomePage from "./ui/StoryListHomePage";
-import StoryListNormalPage from "./ui/StoryListNormalPage";
-import StoryDetailPage from "./ui/StoryDetailPage";
-import StoryCommentPage from "./ui/StoryCommentPage";
+// import StoryListHomePage from "./ui/StoryListHomePage";
+// import StoryListNormalPage from "./ui/StoryListNormalPage";
+// import StoryDetailPage from "./ui/StoryDetailPage";
+// import StoryCommentPage from "./ui/StoryCommentPage";
 
 const PAGE_SPLASH = 'splash';
 const PAGE_THEME_LIST = 'theme_list';
@@ -23,10 +23,10 @@ const PAGE_COMMENT = 'comment';
 var pageConfig = {};
 pageConfig[PAGE_SPLASH] = SplashPage;
 pageConfig[PAGE_THEME_LIST] = ThemeListPage;
-pageConfig[PAGE_HOME_LIST] = StoryListHomePage;
-pageConfig[PAGE_NORMAL_LIST] = StoryListNormalPage;
-pageConfig[PAGE_DETAIL] = StoryDetailPage;
-pageConfig[PAGE_COMMENT] = StoryCommentPage;
+// pageConfig[PAGE_HOME_LIST] = StoryListHomePage;
+// pageConfig[PAGE_NORMAL_LIST] = StoryListNormalPage;
+// pageConfig[PAGE_DETAIL] = StoryDetailPage;
+// pageConfig[PAGE_COMMENT] = StoryCommentPage;
 
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', function () {

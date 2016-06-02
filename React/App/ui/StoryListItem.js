@@ -1,6 +1,7 @@
 'use strict';
 
-import React, {Component, Text, View, Image, TouchableHighlight} from "react-native";
+import React, {Component} from "react";
+import {Text, View, Image, TouchableHighlight} from "react-native";
 import Line from "../widget/Line";
 import NativeLog from "../native/NativeLog";
 

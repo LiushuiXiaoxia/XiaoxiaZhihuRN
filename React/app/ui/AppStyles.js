@@ -1,10 +1,11 @@
 'use strict';
 
-import React from "react-native";
+import React from "react";
+import {StyleSheet} from "react-native";
 import AppUtil from "../util/AppUtil";
 
 var AppStyles = {
-    SplashStyle: React.StyleSheet.create({
+    SplashStyle: StyleSheet.create({
         container: {
             flex: 1,
             flexDirection: 'column',
@@ -21,7 +22,7 @@ var AppStyles = {
             marginBottom: 10
         }
     }),
-    ThemeListStyle: React.StyleSheet.create({
+    ThemeListStyle: StyleSheet.create({
         container: {
             flex: 1,
             flexDirection: 'column',
@@ -32,7 +33,7 @@ var AppStyles = {
             width: AppUtil.WINDOW_WIDTH
         }
     }),
-    StoryListStyle: React.StyleSheet.create({
+    StoryListStyle: StyleSheet.create({
         container: {
             flex: 1,
             flexDirection: 'column',
@@ -54,7 +55,7 @@ var AppStyles = {
             marginRight: 10
         }
     }),
-    StoryHomeListStyle: React.StyleSheet.create({
+    StoryHomeListStyle: StyleSheet.create({
         container: {
             flex: 1,
             flexDirection: 'column',
@@ -76,7 +77,7 @@ var AppStyles = {
             width: AppUtil.WINDOW_WIDTH
         }
     }),
-    StoryDetail: React.StyleSheet.create({
+    StoryDetail: StyleSheet.create({
         container: {
             flex: 1,
             flexDirection: 'column',

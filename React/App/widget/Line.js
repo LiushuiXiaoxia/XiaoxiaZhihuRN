@@ -1,4 +1,7 @@
-import React, {View} from "react-native";
+'use strict';
+
+import React, { Component } from 'react';
+import {View} from "react-native";
 
 class Line extends React.Component {
 

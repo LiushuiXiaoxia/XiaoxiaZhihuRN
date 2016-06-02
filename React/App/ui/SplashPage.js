@@ -1,6 +1,7 @@
 'use strict';
 
-import React, {View, Text, Image, Dimensions, Navigator, AsyncStorage} from "react-native";
+import React, {Component} from "react";
+import {View, Text, Image, Dimensions, Navigator, AsyncStorage} from "react-native";
 import TimerMixin from "react-timer-mixin";
 import Animated from "Animated";
 import Domain from "./../data/Domain";
@@ -8,7 +9,7 @@ import NativeLog from "./../native/NativeLog";
 import AppUtil from "./../util/AppUtil";
 import AppStyles from "./AppStyles";
 
-var ANIMATION_TIME = 3000;
+var ANIMATION_TIME = 1000;
 var styles = AppStyles.SplashStyle;
 
 class SplashPage extends React.Component {
@@ -29,7 +30,7 @@ class SplashPage extends React.Component {
         // 获取本地的数据
         domain.getStartInfoFromLocal()
             .then((info)=> {
-                NativeLog.obj(info, "SplashPage.getStartInfoFromLocal info")
+                NativeLog.obj(info, "SplashPage.getStartInfoFromLocal info");
                 this.setState({info: info})
             })
             .catch(()=> {

@@ -1,6 +1,7 @@
 'use strict';
 
-import React, {View, Text, ListView, TouchableHighlight, InteractionManager} from "react-native";
+import React, {Component } from 'react';
+import {View, Text, ListView, TouchableHighlight, InteractionManager, RefreshControl} from "react-native";
 import ToolbarAndroid from "ToolbarAndroid";
 import NativeLog from "../native/NativeLog";
 import Res from "../res/Res";
@@ -8,7 +9,7 @@ import Api from "../data/HttpApi";
 import AppStyles from "./AppStyles";
 import AppNavigator from "../App";
 import ThemeListItem from "./ThemeListItem";
-import NativeRefreshLayout from "../widget/native/NativeRefreshLayout";
+// import NativeRefreshLayout from "../widget/native/NativeRefreshLayout";
 
 var styles = AppStyles.ThemeListStyle;
 
@@ -18,6 +19,7 @@ class ThemeListPage extends React.Component {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
+            refreshing: false,
             renderPlaceholderOnly: true,
             data: ds.cloneWithRows([])
         };
@@ -79,6 +81,21 @@ class ThemeListPage extends React.Component {
     }
 
     renderContent() {
+        //     refreshControl={
+        //     <RefreshControl
+        //         refreshing={this.state.refreshing}
+        //         onRefresh={this.onRefresh.bind(this)}
+        //         tintColor="#ff0000"
+        //         title="Loading..."
+        //         titleColor="#00ff00"
+        //         colors={['#ff0000', '#00ff00', '#0000ff']}
+        //         progressBackgroundColor="#ffff00"
+        //     />
+        // }
+
+        var constrants = require('NativeModules').UIManager.AndroidSwipeRefreshLayout;
+        console.log("constrants = " + JSON.stringify(constrants));
+
         if (this.state.renderPlaceholderOnly) {
             return (
                 <View style={{flex:1, justifyContent:'center'}}>
@@ -86,22 +103,22 @@ class ThemeListPage extends React.Component {
                 </View>
             );
         } else {
+            // <NativeRefreshLayout
+            //     onRefresh={this.onRefresh.bind(this)}
+            //     ref={(layout) => {this.swipeRefreshLayout = layout;}}>
+            // </NativeRefreshLayout>
             return (
-                <NativeRefreshLayout
-                    onRefresh={this.onRefresh.bind(this)}
-                    ref={(layout) => {this.swipeRefreshLayout = layout;}}>
-                    <ListView
-                        style={styles.listview}
-                        dataSource={this.state.data}
-                        enableEmptySections={true}
-                        initialListSize={5}
-                        renderRow={(rowData)=>{
+                <ListView
+                    style={styles.listview}
+                    dataSource={this.state.data}
+                    enableEmptySections={true}
+                    initialListSize={5}
+                    renderRow={(rowData)=>{
                             return (
                                 <ThemeListItem theme={rowData} onItemClick={this.onItemClick.bind(this)}/>
                             );
                         }}
-                    />
-                </NativeRefreshLayout>
+                />
             );
         }
     }

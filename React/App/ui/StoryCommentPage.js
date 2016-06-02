@@ -1,5 +1,6 @@
 'use strict';
-import React, {
+import React, {Component} from "react";
+import {
     View,
     Text,
     Image,
@@ -56,15 +57,15 @@ class StoryCommentPage extends React.Component {
             promise = api.getShortCommentList(id);
         }
         promise.then((respJson)=> {
-                if (respJson && respJson.comments) {
-                    if (isLong) {
-                        this.longComments = respJson.comments;
-                    } else {
-                        this.shortComments = respJson.comments;
-                    }
-                    this.update();
+            if (respJson && respJson.comments) {
+                if (isLong) {
+                    this.longComments = respJson.comments;
+                } else {
+                    this.shortComments = respJson.comments;
                 }
-            })
+                this.update();
+            }
+        })
             .catch((error)=> {
                 NativeLog.e("StoryCommentPage.getComments error = " + error);
                 if (isLong) {

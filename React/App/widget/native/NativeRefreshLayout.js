@@ -1,6 +1,7 @@
 'use strict';
 
-import React, {PropTypes, View} from "react-native";
+import React, {Component} from "react";
+import {StyleSheet, PropTypes, View} from "react-native";
 import createReactNativeComponentClass from "createReactNativeComponentClass";
 import ReactNativeViewAttributes from "ReactNativeViewAttributes";
 import {UIManager as RCTUIManager} from "NativeModules";
@@ -75,7 +76,7 @@ class NativeRefreshLayout extends React.Component {
     }
 }
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
     base: {
         flex: 1
     },

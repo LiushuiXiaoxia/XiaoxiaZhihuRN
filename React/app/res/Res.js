@@ -1,5 +1,7 @@
 'use strict';
-import React, {Dimensions} from "react-native";
+
+import React from "react";
+import {Dimensions} from "react-native";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
