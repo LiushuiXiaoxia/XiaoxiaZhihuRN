@@ -7,11 +7,11 @@ var {NativeModules} = require('react-native');
 
 var Log = {
     i: function (message:string):void {
-        // NativeModules.NativeLog.i(message);
+        // NativeModules.AppLog.i(message);
         console.log(message)
     },
     e: function (message:string):void {
-        // NativeModules.NativeLog.e(message);
+        // NativeModules.AppLog.e(message);
         console.error(message)
     },
     obj: function (obj:Object, desc:String = ''):void {

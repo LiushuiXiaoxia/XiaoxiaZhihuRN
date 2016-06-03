@@ -3,12 +3,12 @@
 import React, {Component} from "react";
 import {Text, View, Image, TouchableHighlight} from "react-native";
 import Line from "../widget/Line";
-import NativeLog from "../native/NativeLog";
+import AppLog from "../util/AppLog";
 
 class StoryListItem extends React.Component {
 
     onItemClick(story:Object) {
-        NativeLog.i("StoryListItem.onItemClick story = " + story.title);
+        AppLog.i("StoryListItem.onItemClick story = " + story.title);
 
         this.props.onItemClick(story);
     }

@@ -6,7 +6,7 @@ import Api from "../data/HttpApi";
 import Res from "../res/Res";
 import AppStyles from "./AppStyles";
 import App from "../App";
-import NativeLog from "../native/NativeLog";
+import AppLog from "../util/AppLog";
 import StoryListItem from "./StoryListItem";
 
 var styles = AppStyles.StoryHomeListStyle;
@@ -48,10 +48,10 @@ class StoryListNormalPage extends React.Component {
                     themeImageUrl: respJson.background,
                     data: this.state.data.cloneWithRows(allThemes)
                 });
-                NativeLog.i("StoryListNormalPage.getNormalStoryList allThemes.size = " + allThemes.length);
+                AppLog.i("StoryListNormalPage.getNormalStoryList allThemes.size = " + allThemes.length);
             })
             .catch((error)=> {
-                NativeLog.e("StoryListNormalPage.getNormalStoryList error = " + error);
+                AppLog.e("StoryListNormalPage.getNormalStoryList error = " + error);
             })
             .finally(()=> {
                 this.swipeRefreshLayout && this.swipeRefreshLayout.finishRefresh();
@@ -59,7 +59,7 @@ class StoryListNormalPage extends React.Component {
     }
 
     onItemClick(story:Object) {
-        NativeLog.i("StoryListNormalPage.onItemClick story = " + story.title);
+        AppLog.i("StoryListNormalPage.onItemClick story = " + story.title);
 
         this.props.navigator.push({
             name: App.PAGE_DETAIL,

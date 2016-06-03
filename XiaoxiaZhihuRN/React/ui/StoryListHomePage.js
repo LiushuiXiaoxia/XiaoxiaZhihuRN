@@ -8,7 +8,7 @@ import AppUtil from "../util/AppUtil";
 import Res from "../res/Res";
 import AppStyles from "./AppStyles";
 import App from "../App";
-import NativeLog from "../native/NativeLog";
+import AppLog from "../util/AppLog";
 import StoryListItem from "./StoryListItem";
 import Line from "./../widget/Line";
 
@@ -53,7 +53,7 @@ class StoryListHomePage extends React.Component {
                 });
             })
             .catch((error)=> {
-                NativeLog.e("StoryListHomePage.getHomeStoryList error = " + error);
+                AppLog.e("StoryListHomePage.getHomeStoryList error = " + error);
             })
             .finally(()=> {
                 this.swipeRefreshLayout && this.swipeRefreshLayout.finishRefresh();
@@ -61,7 +61,7 @@ class StoryListHomePage extends React.Component {
     }
 
     onItemClick(story:Object) {
-        NativeLog.i("StoryListHomePage.onItemClick story = " + story.title);
+        AppLog.i("StoryListHomePage.onItemClick story = " + story.title);
 
         this.props.navigator.push({
             name: App.PAGE_DETAIL,

@@ -18,8 +18,8 @@ import AppUtil from "../util/AppUtil";
 import Api from "./../data/HttpApi";
 import AppStyles from "./AppStyles";
 import App from "../App";
-import NativeLog from "../native/NativeLog";
-import NativeToast from "../native/NativeToast";
+import AppLog from "../util/AppLog";
+import AppToast from "../util/AppToast";
 
 var styles = AppStyles.StoryDetail;
 
@@ -43,7 +43,7 @@ class StoryDetailPage extends React.Component {
     getStoryDetail() {
         new Api().getStoryDetail(this.props.story.id)
             .then((respJson)=> {
-                NativeLog.i("StoryDetailPage.getStoryDetail respJson = " + respJson);
+                AppLog.i("StoryDetailPage.getStoryDetail respJson = " + respJson);
 
                 var storyDetail = null;
                 if (respJson) {
@@ -54,7 +54,7 @@ class StoryDetailPage extends React.Component {
                 });
             })
             .catch((error)=> {
-                NativeLog.e("ThemeListPage.getStoryDetail error = " + error);
+                AppLog.e("ThemeListPage.getStoryDetail error = " + error);
             })
             .done();
     }
@@ -137,9 +137,9 @@ class StoryDetailPage extends React.Component {
 
     onActionSelected(position) {
         if (position == 0) {
-            NativeToast.showShort("分享")
+            AppToast.showShort("分享")
         } else if (position == 1) {
-            NativeToast.showShort("收藏")
+            AppToast.showShort("收藏")
         } else if (position == 2) {
             this.props.navigator.push({
                 name: App.PAGE_COMMENT,
@@ -148,7 +148,7 @@ class StoryDetailPage extends React.Component {
                 }
             });
         } else if (position == 3) {
-            NativeToast.showShort("点赞")
+            AppToast.showShort("点赞")
         }
     }
 

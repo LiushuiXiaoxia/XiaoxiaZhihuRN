@@ -15,7 +15,7 @@ import {
     RefreshControl
 } from "react-native";
 import ToolbarAndroid from "ToolbarAndroid";
-import NativeLog from "../native/NativeLog";
+import AppLog from "../util/AppLog";
 import AppUtil from "../util/AppUtil";
 import Res from "../res/Res";
 import Api from "../data/HttpApi";
@@ -69,7 +69,7 @@ class StoryCommentPage extends React.Component {
             }
         })
             .catch((error)=> {
-                NativeLog.e("StoryCommentPage.getComments error = " + error);
+                AppLog.e("StoryCommentPage.getComments error = " + error);
                 if (isLong) {
                     this.longComments = [];
                 } else {
@@ -92,7 +92,7 @@ class StoryCommentPage extends React.Component {
                 allComments: this.state.allComments.cloneWithRows(comments)
             });
 
-            NativeLog.i("StoryCommentPage.update comments = " + comments.length)
+            AppLog.i("StoryCommentPage.update comments = " + comments.length)
 
             this.swipeRefreshLayout && this.swipeRefreshLayout.finishRefresh();
         }

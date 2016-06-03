@@ -3,7 +3,7 @@
 import React, {Component} from "react";
 import {View, Text, ListView, TouchableHighlight, InteractionManager, RefreshControl} from "react-native";
 import ToolbarAndroid from "ToolbarAndroid";
-import NativeLog from "../native/NativeLog";
+import AppLog from "../util/AppLog";
 import Res from "../res/Res";
 import Api from "../data/HttpApi";
 import AppStyles from "./AppStyles";
@@ -52,7 +52,7 @@ class ThemeListPage extends React.Component {
     }
 
     onItemClick(theme) {
-        NativeLog.i('ThemeListPage.onItemClick theme = ' + theme.name);
+        AppLog.i('ThemeListPage.onItemClick theme = ' + theme.name);
         var name = App.PAGE_NORMAL_LIST;
         if (theme.id == -1) {
             name = App.PAGE_HOME_LIST;

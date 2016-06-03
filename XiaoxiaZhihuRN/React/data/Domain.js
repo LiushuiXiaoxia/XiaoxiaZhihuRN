@@ -6,7 +6,7 @@
 
 import {AsyncStorage} from "react-native";
 import Api from "./HttpApi";
-import NativeLog from "../native/NativeLog";
+import AppLog from "../util/AppLog";
 
 const KEY_START_INFO = 'start_info';
 
@@ -18,13 +18,13 @@ class Domain {
             AsyncStorage.getItem(
                 key,
                 (error, result)=> {
-                    NativeLog.i("Domain.getStartInfoFromLocal:key = " + key + ", result = " + result);
+                    AppLog.i("Domain.getStartInfoFromLocal:key = " + key + ", result = " + result);
                     var resultJson = JSON.parse(result);
                     if (error) {
-                        NativeLog.e("Domain.getStartInfoFromLocal:key = " + key + ", error = " + error);
+                        AppLog.e("Domain.getStartInfoFromLocal:key = " + key + ", error = " + error);
                         reject(error);
                     } else {
-                        NativeLog.i("Domain.getStartInfoFromLocal:key = " + key + ", resultJson = " + resultJson);
+                        AppLog.i("Domain.getStartInfoFromLocal:key = " + key + ", resultJson = " + resultJson);
                         resolve(resultJson);
                     }
                 }
@@ -37,11 +37,11 @@ class Domain {
         new Api()
             .getStartInfo()
             .then((responseJson)=> {
-                NativeLog.i("Domain.fetchStartInfoFromRemote: responseJson = " + responseJson);
+                AppLog.i("Domain.fetchStartInfoFromRemote: responseJson = " + responseJson);
                 AsyncStorage.setItem(key, JSON.stringify(responseJson));
             })
             .catch((error)=> {
-                NativeLog.e("Domain.fetchStartInfoFromRemote: error = " + error);
+                AppLog.e("Domain.fetchStartInfoFromRemote: error = " + error);
             });
     }
 }

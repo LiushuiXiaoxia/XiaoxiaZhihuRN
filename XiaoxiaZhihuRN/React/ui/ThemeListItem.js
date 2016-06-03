@@ -3,12 +3,12 @@
 import React, {Component} from "react";
 import {Text, View, Image, TouchableHighlight} from "react-native";
 import Line from "../widget/Line";
-import NativeLog from "../native/NativeLog";
+import AppLog from "../util/AppLog";
 
 class ThemeListItem extends React.Component {
 
     onItemClick(theme) {
-        NativeLog.i("ListItem.onItemClick theme = " + theme.name);
+        AppLog.i("ListItem.onItemClick theme = " + theme.name);
         this.props.onItemClick(theme);
     }
 

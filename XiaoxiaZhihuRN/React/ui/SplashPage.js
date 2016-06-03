@@ -5,7 +5,7 @@ import {View, Text, Image, Dimensions, Navigator, AsyncStorage} from "react-nati
 import TimerMixin from "react-timer-mixin";
 import Animated from "Animated";
 import Domain from "./../data/Domain";
-import NativeLog from "./../native/NativeLog";
+import AppLog from "../util/AppLog";
 import AppUtil from "./../util/AppUtil";
 import AppStyles from "./AppStyles";
 
@@ -30,7 +30,7 @@ class SplashPage extends React.Component {
         // 获取本地的数据
         domain.getStartInfoFromLocal()
             .then((info)=> {
-                NativeLog.obj(info, "SplashPage.getStartInfoFromLocal info");
+                AppLog.obj(info, "SplashPage.getStartInfoFromLocal info");
                 this.setState({info: info})
             })
             .catch(()=> {

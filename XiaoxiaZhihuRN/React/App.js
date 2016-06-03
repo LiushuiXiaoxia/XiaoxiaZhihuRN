@@ -3,8 +3,8 @@ import React, {Component} from "react";
 import {Navigator} from "react-native";
 import BackAndroid from "BackAndroid";
 import buildStyleInterpolator from "buildStyleInterpolator";
-import NativeLog from "./native/NativeLog";
-import NativeToast from "./native/NativeToast";
+import AppLog from "./util/AppLog";
+import AppToast from "./util/AppToast";
 import SplashPage from "./ui/SplashPage";
 import ThemeListPage from "./ui/ThemeListPage";
 import StoryListHomePage from "./ui/StoryListHomePage";
@@ -64,20 +64,20 @@ var Transitions = {
 
 
 var renderScene = function (route, navigator) {
-    NativeLog.i("newRenderScene: name = " + route.name);
+    AppLog.i("newRenderScene: name = " + route.name);
     if (!_navigator) {
         _navigator = navigator;
     }
 
-    NativeLog.obj(route);
-    NativeLog.obj(pageConfig);
+    AppLog.obj(route);
+    AppLog.obj(pageConfig);
 
     let Component = pageConfig[route.name];
 
     if (Component) {
         return (<Component {...route.params} navigator={navigator}/>);
     }
-    NativeToast.showLong("navigator error!!!");
+    AppToast.showLong("navigator error!!!");
 };
 
 var App = {

@@ -3,7 +3,7 @@
  */
 'use strict';
 
-import NativeLog from "../native/NativeLog";
+import AppLog from "../util/AppLog";
 
 const API_START_INFO_URL = "http://news-at.zhihu.com/api/4/start-image/1080*1776";
 const API_ALL_THEMES_URL = 'http://news-at.zhihu.com/api/4/themes';
@@ -17,20 +17,20 @@ class Api {
 
     getStartInfo() {
         var requestUrl = API_START_INFO_URL;
-        NativeLog.i("Api.getStartInfo requestUrl = " + requestUrl);
+        AppLog.i("Api.getStartInfo requestUrl = " + requestUrl);
 
         return new Promise((resove, reject)=> {
             fetch(requestUrl)
                 .then((resp)=> {
-                    NativeLog.i("Api.getStartInfo resp = " + resp);
+                    AppLog.i("Api.getStartInfo resp = " + resp);
                     return resp.json();
                 })
                 .then((respJson)=> {
-                    NativeLog.i("Api.getStartInfo respJson = " + respJson);
+                    AppLog.i("Api.getStartInfo respJson = " + respJson);
                     resove(respJson);
                 })
                 .catch((error)=> {
-                    NativeLog.e("Api.getStartInfo error = " + error);
+                    AppLog.e("Api.getStartInfo error = " + error);
                     reject(error);
                 })
                 .done();
@@ -39,19 +39,19 @@ class Api {
 
     getAllThemes() {
         var requestUrl = API_ALL_THEMES_URL;
-        NativeLog.i("Api.getAllThemes requestUrl = " + requestUrl);
+        AppLog.i("Api.getAllThemes requestUrl = " + requestUrl);
         return new Promise((resove, reject)=> {
             fetch(requestUrl)
                 .then((resp)=> {
-                    NativeLog.i("Api.getAllThemes resp = " + resp);
+                    AppLog.i("Api.getAllThemes resp = " + resp);
                     return resp.json();
                 })
                 .then((respJson)=> {
-                    NativeLog.i("Api.getAllThemes respJson = " + respJson);
+                    AppLog.i("Api.getAllThemes respJson = " + respJson);
                     resove(respJson);
                 })
                 .catch((error)=> {
-                    NativeLog.e("Api.getAllThemes error = " + error);
+                    AppLog.e("Api.getAllThemes error = " + error);
                     reject(error);
                 })
                 .done();
@@ -60,20 +60,20 @@ class Api {
 
     getNormalStoryList(id) {
         var requestUrl = API_NORMAL_STORY_LIST_URL + id;
-        NativeLog.i("Api.getNormalStoryList requestUrl = " + requestUrl);
+        AppLog.i("Api.getNormalStoryList requestUrl = " + requestUrl);
 
         return new Promise((resove, reject)=> {
             fetch(requestUrl)
                 .then((resp)=> {
-                    NativeLog.i("Api.getNormalStoryList resp = " + resp);
+                    AppLog.i("Api.getNormalStoryList resp = " + resp);
                     return resp.json();
                 })
                 .then((respJson)=> {
-                    NativeLog.i("Api.getNormalStoryList respJson = " + respJson);
+                    AppLog.i("Api.getNormalStoryList respJson = " + respJson);
                     resove(respJson);
                 })
                 .catch((error)=> {
-                    NativeLog.e("Api.getNormalStoryList error = " + error);
+                    AppLog.e("Api.getNormalStoryList error = " + error);
                     reject(error);
                 })
                 .done();
@@ -82,19 +82,19 @@ class Api {
 
     getHomeStoryList() {
         var requestUrl = API_HOME_STORY_LIST_URL;
-        NativeLog.i("Api.getHomeStoryList requestUrl = " + requestUrl);
+        AppLog.i("Api.getHomeStoryList requestUrl = " + requestUrl);
         return new Promise((resove, reject)=> {
             fetch(requestUrl)
                 .then((resp)=> {
-                    NativeLog.i("Api.getHomeStoryList resp = " + resp);
+                    AppLog.i("Api.getHomeStoryList resp = " + resp);
                     return resp.json();
                 })
                 .then((respJson)=> {
-                    NativeLog.i("Api.getHomeStoryList respJson = " + respJson);
+                    AppLog.i("Api.getHomeStoryList respJson = " + respJson);
                     resove(respJson);
                 })
                 .catch((error)=> {
-                    NativeLog.e("Api.getHomeStoryList error = " + error);
+                    AppLog.e("Api.getHomeStoryList error = " + error);
                     reject(error);
                 })
                 .done();
@@ -103,20 +103,20 @@ class Api {
 
     getStoryDetail(id) {
         var requestUrl = API_STORY_DETAIL_URL + id;
-        NativeLog.i("Api.getStoryDetail requestUrl = " + requestUrl);
+        AppLog.i("Api.getStoryDetail requestUrl = " + requestUrl);
 
         return new Promise((resove, reject)=> {
             fetch(requestUrl)
                 .then((resp)=> {
-                    NativeLog.i("Api.getStoryDetail resp = " + resp);
+                    AppLog.i("Api.getStoryDetail resp = " + resp);
                     return resp.json();
                 })
                 .then((respJson)=> {
-                    NativeLog.i("Api.getStoryDetail respJson = " + respJson);
+                    AppLog.i("Api.getStoryDetail respJson = " + respJson);
                     resove(respJson);
                 })
                 .catch((error)=> {
-                    NativeLog.e("Api.getStoryDetail error = " + error);
+                    AppLog.e("Api.getStoryDetail error = " + error);
                     reject(error);
                 })
                 .done();
@@ -125,20 +125,20 @@ class Api {
 
     getLongCommentList(id) {
         var requestUrl = API_LONG_COMMENT_URL.replace('{id}', id);
-        NativeLog.i("Api.getLongCommentList requestUrl = " + requestUrl);
+        AppLog.i("Api.getLongCommentList requestUrl = " + requestUrl);
 
         return new Promise((resove, reject)=> {
             fetch(requestUrl)
                 .then((resp)=> {
-                    NativeLog.i("Api.getLongCommentList resp = " + resp);
+                    AppLog.i("Api.getLongCommentList resp = " + resp);
                     return resp.json();
                 })
                 .then((respJson)=> {
-                    NativeLog.i("Api.getLongCommentList respJson = " + respJson);
+                    AppLog.i("Api.getLongCommentList respJson = " + respJson);
                     resove(respJson);
                 })
                 .catch((error)=> {
-                    NativeLog.e("Api.getLongCommentList error = " + error);
+                    AppLog.e("Api.getLongCommentList error = " + error);
                     reject(error);
                 })
                 .done();
@@ -147,20 +147,20 @@ class Api {
 
     getShortCommentList(id) {
         var requestUrl = API_SHORT_COMMENT_URL.replace('{id}', id);
-        NativeLog.i("Api.getShortCommentList requestUrl = " + requestUrl);
+        AppLog.i("Api.getShortCommentList requestUrl = " + requestUrl);
 
         return new Promise((resove, reject)=> {
             fetch(requestUrl)
                 .then((resp)=> {
-                    NativeLog.i("Api.getShortCommentList resp = " + resp);
+                    AppLog.i("Api.getShortCommentList resp = " + resp);
                     return resp.json();
                 })
                 .then((respJson)=> {
-                    NativeLog.i("Api.getShortCommentList respJson = " + respJson);
+                    AppLog.i("Api.getShortCommentList respJson = " + respJson);
                     resove(respJson);
                 })
                 .catch((error)=> {
-                    NativeLog.e("Api.getShortCommentList error = " + error);
+                    AppLog.e("Api.getShortCommentList error = " + error);
                     reject(error);
                 })
                 .done();
