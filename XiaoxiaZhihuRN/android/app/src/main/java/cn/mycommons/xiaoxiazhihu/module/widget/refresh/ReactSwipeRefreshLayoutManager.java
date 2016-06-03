@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class ReactSwipeRefreshLayoutManager extends ViewGroupManager<ReactSwipeRefreshLayout> {
 
-    private static final String REACT_CLASS = "AndroidSwipeRefreshLayout";
+    private static final String REACT_CLASS = "ReactSwipeRefreshLayout";
 
     public static final int START_REFRESH = 1;
     public static final int FINISH_REFRESH = 2;

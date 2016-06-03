@@ -10,7 +10,7 @@ import NativeMethodsMixin from "NativeMethodsMixin";
 
 var AndroidSwipeRefreshLayout = createReactNativeComponentClass({
     validAttributes: ReactNativeViewAttributes.UIView,
-    uiViewClassName: 'AndroidSwipeRefreshLayout'
+    uiViewClassName: 'ReactSwipeRefreshLayout'
 });
 
 
