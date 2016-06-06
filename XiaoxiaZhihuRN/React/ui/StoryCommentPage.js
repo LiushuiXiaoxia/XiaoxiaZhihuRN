@@ -14,13 +14,12 @@ import {
     StyleSheet,
     RefreshControl
 } from "react-native";
-import ToolbarAndroid from "ToolbarAndroid";
 import AppLog from "../util/AppLog";
 import AppUtil from "../util/AppUtil";
-import Res from "../res/Res";
 import Api from "../data/HttpApi";
 import StoryCommentItem from "./StoryCommentItem";
 import Line from "../widget/Line";
+import TitleBar from "./../widget/TitleBar";
 
 
 class StoryCommentPage extends React.Component {
@@ -58,16 +57,17 @@ class StoryCommentPage extends React.Component {
         } else {
             promise = api.getShortCommentList(id);
         }
-        promise.then((respJson)=> {
-            if (respJson && respJson.comments) {
-                if (isLong) {
-                    this.longComments = respJson.comments;
-                } else {
-                    this.shortComments = respJson.comments;
+        promise
+            .then((respJson)=> {
+                if (respJson && respJson.comments) {
+                    if (isLong) {
+                        this.longComments = respJson.comments;
+                    } else {
+                        this.shortComments = respJson.comments;
+                    }
+                    this.update();
                 }
-                this.update();
-            }
-        })
+            })
             .catch((error)=> {
                 AppLog.e("StoryCommentPage.getComments error = " + error);
                 if (isLong) {
@@ -101,12 +101,10 @@ class StoryCommentPage extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <ToolbarAndroid
-                    style={Res.styleTitleBar}
+                <TitleBar
                     title='评论'
-                    titleColor={Res.colorTitleColor}
-                    navIcon={require('image!ic_back_white')}
-                    onIconClicked={this.onIconClicked.bind(this)}
+                    showNavIco={true}
+                    onLeftClicked={this.onIconClicked.bind(this)}
                 />
                 {this.renderContent()}
             </View>
@@ -153,7 +151,6 @@ class StoryCommentPage extends React.Component {
                             title='Loading...'
                             titleColor='#00ff00'
                             colors={['#ff0000', '#00ff00', '#0000ff']}
-                            progressBackgroundColor='#3F51B5'
                         />
                     }
                 />

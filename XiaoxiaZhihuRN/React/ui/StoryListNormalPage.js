@@ -1,13 +1,12 @@
 'use strict';
 import React, {Component} from "react";
 import {View, Text, Image, ListView, Dimensions, InteractionManager, RefreshControl} from "react-native";
-import ToolbarAndroid from "ToolbarAndroid";
 import Api from "../data/HttpApi";
-import Res from "../res/Res";
 import AppStyles from "./AppStyles";
 import App from "../App";
 import AppLog from "../util/AppLog";
 import StoryListItem from "./StoryListItem";
+import TitleBar from "./../widget/TitleBar";
 
 var styles = AppStyles.StoryHomeListStyle;
 
@@ -72,12 +71,10 @@ class StoryListNormalPage extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <ToolbarAndroid
-                    style={Res.styleTitleBar}
+                <TitleBar
                     title={this.props.theme.name}
-                    titleColor={Res.colorTitleColor}
-                    navIcon={require('image!ic_back_white')}
-                    onIconClicked={this.onIconClicked.bind(this)}
+                    showNavIco={true}
+                    onLeftClicked={this.onIconClicked.bind(this)}
                 />
                 {this.renderContent()}
             </View>
@@ -120,7 +117,6 @@ class StoryListNormalPage extends React.Component {
                             title='Loading...'
                             titleColor='#00ff00'
                             colors={['#ff0000', '#00ff00', '#0000ff']}
-                            progressBackgroundColor='#3F51B5'
                         />
                     }
                 />

@@ -1,16 +1,23 @@
 'use strict';
 
 import React, {Component} from "react";
-import {View, Text, Image, ListView, InteractionManager, ViewPagerAndroid, RefreshControl} from "react-native";
-import ToolbarAndroid from "ToolbarAndroid";
+import {
+    View,
+    Text,
+    Image,
+    ListView,
+    InteractionManager,
+    ViewPagerAndroid,
+    RefreshControl,
+    ScrollView
+} from "react-native";
 import Api from "../data/HttpApi";
 import AppUtil from "../util/AppUtil";
-import Res from "../res/Res";
 import AppStyles from "./AppStyles";
 import App from "../App";
 import AppLog from "../util/AppLog";
 import StoryListItem from "./StoryListItem";
-import Line from "./../widget/Line";
+import TitleBar from "./../widget/TitleBar";
 
 var styles = AppStyles.StoryListStyle;
 
@@ -23,7 +30,8 @@ class StoryListHomePage extends React.Component {
             renderPlaceholderOnly: true,
             refreshing: false,
             topStories: [],
-            stories: ds.cloneWithRows([])
+            // stories: ds.cloneWithRows([]),
+            stories: []
         };
     }
 
@@ -49,7 +57,8 @@ class StoryListHomePage extends React.Component {
                 this.setState({
                     refreshing: false,
                     topStories: topStories,
-                    stories: this.state.stories.cloneWithRows(stories)
+                    // stories: this.state.stories.cloneWithRows(stories),
+                    stories: stories
                 });
             })
             .catch((error)=> {
@@ -74,12 +83,10 @@ class StoryListHomePage extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <ToolbarAndroid
-                    style={Res.styleTitleBar}
+                <TitleBar
                     title={this.props.theme.name}
-                    titleColor={Res.colorTitleColor}
-                    navIcon={require('image!ic_back_white')}
-                    onIconClicked={this.onIconClicked.bind(this)}
+                    showNavIco={true}
+                    onLeftClicked={this.onIconClicked.bind(this)}
                 />
                 {this.renderContent()}
             </View>
@@ -94,31 +101,33 @@ class StoryListHomePage extends React.Component {
                 </View>
             );
         } else {
+            var views = [];
+            views.push(this.renderHeader());
+            var stories = this.state.stories;
+            var length = stories.length;
+            for (var i = 0; i < length; i++) {
+                views.push((
+                    <StoryListItem key={"scroll_key_"+i} story={stories[i]} onItemClick={this.onItemClick.bind(this)}/>
+                ));
+            }
+
             return (
-                <View style={{flex:1, justifyContent:'center'}}>
-                    {this.renderHeader()}
-                    <Line />
-                    <ListView
-                        style={styles.listview}
-                        dataSource={this.state.stories}
-                        enableEmptySections={true}
-                        initialListSize={5}
-                        renderRow={(rowData)=>{
-                            return (<StoryListItem story={rowData} onItemClick={this.onItemClick.bind(this)}/>);
-                        }}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={this.state.refreshing}
-                                onRefresh={this.onRefresh.bind(this)}
-                                tintColor='#ff0000'
-                                title='Loading...'
-                                titleColor='#00ff00'
-                                colors={['#ff0000', '#00ff00', '#0000ff']}
-                                progressBackgroundColor='#3F51B5'
-                            />
-                        }
-                    />
-                </View>
+                <ScrollView
+                    automaticallyAdjustContentInsets={false}
+                    horizontal={false}
+                    style={{flex:1,width:AppUtil.WINDOW_WIDTH}}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh.bind(this)}
+                            tintColor='#ff0000'
+                            title='Loading...'
+                            titleColor='#00ff00'
+                            colors={['#ff0000', '#00ff00', '#0000ff']}
+                        />
+                    }>
+                    {views}
+                </ScrollView>
             );
         }
     }

@@ -10,6 +10,7 @@ import {
     TouchableHighlight,
     WebView,
     ScrollView,
+    Platform,
     InteractionManager
 } from "react-native";
 import ToolbarAndroid from "ToolbarAndroid";
@@ -20,6 +21,7 @@ import AppStyles from "./AppStyles";
 import App from "../App";
 import AppLog from "../util/AppLog";
 import AppToast from "../util/AppToast";
+import TitleBar from "./../widget/TitleBar";
 
 var styles = AppStyles.StoryDetail;
 
@@ -80,22 +82,38 @@ class StoryDetailPage extends React.Component {
         var source = {html: body};
         return (
             <View style={styles.container}>
+                {this.rederTitleBar()}
+                {this.renderContent(title, titleSource, image, source)}
+            </View>
+        );
+    }
+
+    rederTitleBar() {
+        if (Platform.OS == 'ios') {
+            return (<TitleBar
+                title='详情'
+                showNavIco={true}
+                onLeftClicked={this.onIconClicked.bind(this)}
+                onRightClicked={this.onRightClicked.bind(this)}
+                editIcon={require('../res/img/ic_comment_white.png')}
+            />);
+        } else {
+            return (
                 <ToolbarAndroid
+                    title='详情'
                     style={Res.styleTitleBar}
                     titleColor={Res.colorTitleColor}
                     navIcon={require('image!ic_back_white')}
                     onIconClicked={this.onIconClicked.bind(this)}
                     onActionSelected={this.onActionSelected.bind(this)}
                     actions={[
-                    {title:'11',icon:require('image!ic_share_white'),show:'always'},
-                    {title:'11',icon:require('image!ic_favorites_white'),show:'always'},
-                    {title:'11',icon:require('image!ic_comment_white'),show:'always',showWithText:true},
-                    {title:'11',icon:require('image!ic_praise_white'),show:'always',showWithText:true}
+                    {title:'分享',icon:require('image!ic_share_white'),show:'always'},
+                    {title:'收藏',icon:require('image!ic_favorites_white'),show:'always'},
+                    {title:'评论',icon:require('image!ic_comment_white'),show:'always',showWithText:true},
+                    {title:'点赞',icon:require('image!ic_praise_white'),show:'always',showWithText:true}
                     ]}
-                />
-                {this.renderContent(title, titleSource, image, source)}
-            </View>
-        )
+                />);
+        }
     }
 
     renderContent(title, titleSource, image, source) {
@@ -141,12 +159,7 @@ class StoryDetailPage extends React.Component {
         } else if (position == 1) {
             AppToast.showShort("收藏")
         } else if (position == 2) {
-            this.props.navigator.push({
-                name: App.PAGE_COMMENT,
-                params: {
-                    story: this.props.story
-                }
-            });
+            this.onRightClicked();
         } else if (position == 3) {
             AppToast.showShort("点赞")
         }
@@ -154,6 +167,15 @@ class StoryDetailPage extends React.Component {
 
     onIconClicked() {
         this.props.navigator.pop();
+    }
+
+    onRightClicked() {
+        this.props.navigator.push({
+            name: App.PAGE_COMMENT,
+            params: {
+                story: this.props.story
+            }
+        });
     }
 }
 

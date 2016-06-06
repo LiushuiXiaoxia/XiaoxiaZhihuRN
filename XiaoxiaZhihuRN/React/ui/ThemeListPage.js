@@ -1,14 +1,14 @@
 'use strict';
 
 import React, {Component} from "react";
-import {View, Text, ListView, TouchableHighlight, InteractionManager, RefreshControl} from "react-native";
-import ToolbarAndroid from "ToolbarAndroid";
+import {View, Text, ListView, TouchableHighlight, InteractionManager, RefreshControl, StatusBar} from "react-native";
 import AppLog from "../util/AppLog";
 import Res from "../res/Res";
 import Api from "../data/HttpApi";
 import AppStyles from "./AppStyles";
 import App from "../App";
 import ThemeListItem from "./ThemeListItem";
+import TitleBar from "./../widget/TitleBar";
 
 var styles = AppStyles.ThemeListStyle;
 
@@ -69,8 +69,12 @@ class ThemeListPage extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <ToolbarAndroid
-                    style={Res.styleTitleBar}
+                <StatusBar
+                    backgroundColor="#3F51B5"
+                    barStyle="light-content"
+                    showHideTransition="fade"
+                />
+                <TitleBar
                     title='主题列表'
                     titleColor={Res.colorTitleColor}
                 />
@@ -106,7 +110,6 @@ class ThemeListPage extends React.Component {
                             title='Loading...'
                             titleColor='#00ff00'
                             colors={['#ff0000', '#00ff00', '#0000ff']}
-                            progressBackgroundColor='#3F51B5'
                         />
                     }
                 />
