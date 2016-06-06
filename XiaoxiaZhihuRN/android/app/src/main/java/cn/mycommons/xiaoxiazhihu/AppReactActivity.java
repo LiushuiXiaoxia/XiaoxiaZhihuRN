@@ -15,12 +15,13 @@ import cn.mycommons.xiaoxiazhihu.module.AndroidReactPackage;
 public class AppReactActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
+    private ReactRootView mReactRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ReactRootView mReactRootView = new ReactRootView(this);
+        mReactRootView = new ReactRootView(this);
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
                 .setBundleAssetName("index.android.bundle")
@@ -58,6 +59,7 @@ public class AppReactActivity extends AppCompatActivity implements DefaultHardwa
         super.onDestroy();
         mReactInstanceManager.onHostDestroy();
         mReactInstanceManager = null;
+        mReactRootView = null;
     }
 
     @Override
