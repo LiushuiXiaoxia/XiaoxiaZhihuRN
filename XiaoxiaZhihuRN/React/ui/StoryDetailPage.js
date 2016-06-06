@@ -90,13 +90,15 @@ class StoryDetailPage extends React.Component {
 
     rederTitleBar() {
         if (Platform.OS == 'ios') {
-            return (<TitleBar
-                title='详情'
-                showNavIco={true}
-                onLeftClicked={this.onIconClicked.bind(this)}
-                onRightClicked={this.onRightClicked.bind(this)}
-                editIcon={require('../res/img/ic_comment_white.png')}
-            />);
+            return (
+                <TitleBar
+                    title='详情'
+                    showNavIco={true}
+                    onLeftClicked={this.onIconClicked.bind(this)}
+                    onRightClicked={this.onRightClicked.bind(this)}
+                    editIcon={require('../res/img/ic_comment_white.png')}
+                />
+            );
         } else {
             return (
                 <ToolbarAndroid
@@ -112,22 +114,28 @@ class StoryDetailPage extends React.Component {
                     {title:'评论',icon:require('image!ic_comment_white'),show:'always',showWithText:true},
                     {title:'点赞',icon:require('image!ic_praise_white'),show:'always',showWithText:true}
                     ]}
-                />);
+                />
+            );
         }
     }
 
     renderContent(title, titleSource, image, source) {
         if (this.state.renderPlaceholderOnly) {
-            return this.newLoadingView();
+            return StoryDetailPage.newLoadingView();
         } else {
-            return ([
-                <Image
-                    key={"header_image"}
-                    style={styles.header_image}
-                    source={{uri: image}}>
-                    <Text style={styles.header_text1}>{title}</Text>
-                    <Text style={styles.header_text2}>{titleSource}</Text>
-                </Image>,
+            var views = [];
+            if (image) {
+                views.push(
+                    <Image
+                        key={"header_image"}
+                        style={styles.header_image}
+                        source={{uri: image}}>
+                        <Text style={styles.header_text1}>{title}</Text>
+                        <Text style={styles.header_text2}>{titleSource}</Text>
+                    </Image>
+                );
+            }
+            views.push(
                 <WebView
                     key={"wevview"}
                     source={source}
@@ -141,11 +149,12 @@ class StoryDetailPage extends React.Component {
                             alignSelf: 'stretch'
                          }}
                 />
-            ]);
+            );
+            return views;
         }
     }
 
-    newLoadingView() {
+    static newLoadingView() {
         return (
             <View style={{flex:1, justifyContent:'center'}}>
                 <Text>正在加载中...</Text>
