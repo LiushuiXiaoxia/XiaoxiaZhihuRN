@@ -135,17 +135,17 @@ class StoryDetailPage extends React.Component {
                     </Image>
                 );
             }
+            var scalesPageToFit = Platform.OS != 'ios';
             views.push(
                 <WebView
                     key={"wevview"}
                     source={source}
-                    scalesPageToFit={true}
+                    scalesPageToFit={scalesPageToFit}
                     automaticallyAdjustContentInsets={false}
                     style={{
                             flex: 1,
                             width: AppUtil.WINDOW_WIDTH,
-                            paddingTop: 220,
-                            height: AppUtil.WINDOW_HEIGHT - 220,
+                            height: AppUtil.WINDOW_HEIGHT - styles.header_image.height,
                             alignSelf: 'stretch'
                          }}
                 />

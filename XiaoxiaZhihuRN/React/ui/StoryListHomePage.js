@@ -9,7 +9,8 @@ import {
     InteractionManager,
     ViewPagerAndroid,
     RefreshControl,
-    ScrollView
+    ScrollView,
+    Platform
 } from "react-native";
 import Api from "../data/HttpApi";
 import AppUtil from "../util/AppUtil";
@@ -18,6 +19,7 @@ import App from "../App";
 import AppLog from "../util/AppLog";
 import StoryListItem from "./StoryListItem";
 import TitleBar from "./../widget/TitleBar";
+import Carousel from "react-native-carousel";
 
 var styles = AppStyles.StoryListStyle;
 
@@ -135,22 +137,48 @@ class StoryListHomePage extends React.Component {
     renderHeader() {
         var tops = this.state.topStories;
         var views = [];
+        var headherHeight = 220;
         for (let i = 0; i < tops.length; i++) {
             let top = tops[i];
             views.push((
                 <View key={"list_key"+i}
-                      style={{flex:1,width:AppUtil.WINDOW_WIDTH, height: 220,
+                      style={{flex:1,width:AppUtil.WINDOW_WIDTH, height: headherHeight,
                         alignItems: 'center'}}>
                     <Image source={{uri: top.image}}
-                           style={{width:AppUtil.WINDOW_WIDTH, height: 220,justifyContent:'flex-end'}}>
-                        <Text style={[styles.header_text,{color:'#333', margin:10, fontSize:15}]}>{top.title}</Text>
+                           style={{width:AppUtil.WINDOW_WIDTH, height: headherHeight,justifyContent:'flex-end'}}>
+                        <Text style={[styles.header_text,{color:'#fff', marginLeft:20,marginRight:20,marginBottom:30,
+                            fontSize:15}]}
+                        >{top.title}</Text>
                     </Image>
                 </View>
             ));
         }
 
+        // TODO xiaqiulei, Carousel Android支持有bug,后续在优化
+        if (Platform.OS == 'ios') {
+            return (
+                <Carousel
+                    key={"carousel"}
+                    style={{
+                        width: AppUtil.WINDOW_WIDTH,
+                    }}
+                    hideIndicators={false} // Set to true to hide the indicators
+                    indicatorColor="#FFFFFF" // Active indicator color
+                    indicatorSize={20} // Indicator bullet size
+                    indicatorSpace={15} // space between each indicator
+                    inactiveIndicatorColor="#999999" // Inactive indicator color
+                    indicatorAtBottom={true} // Set to false to show the indicators at the top
+                    indicatorOffset={2} // Indicator relative position from top or bottom
+                    inactiveIndicatorText='•' // Inactive indicator content ( You can customize to use any Unicode character )
+                    indicatorText='•' // Active indicator content ( You can customize to use any Unicode character )
+                    delay={5000}>
+                    {views}
+                </Carousel>
+            );
+        }
         return (
             <ViewPagerAndroid
+                key={"viewpagerandroid"}
                 style={{width: AppUtil.WINDOW_WIDTH, height: 220,alignItems: 'center'}}
                 initialPage={0}>
                 {views}
