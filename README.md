@@ -22,29 +22,40 @@
 
 ![](doc/1.png)
 
+![](doc/ios_1.png)
+
 ![](doc/2.png)
+
+![](doc/ios_2.png)
 
 ![](doc/3.png)
 
+![](doc/ios_3.png)
+
 ![](doc/4.png)
 
+![](doc/ios_4.png)
+
 ![](doc/5.png)
+
+![](doc/ios_5.png)
 
 ## 使用
 
 ### 目录介绍
 
 ```
-|-- app // andorid code 
-|-- React // React Native
-	|--node_module // node_module code
-	|--app // js code
-		|-- data // http api
-		|-- native // android native bridge
-		|-- ui // react naive ui page
-		|-- util // util
-		|-- widget // custom widget
-			|-- native widget//
+|--XiaoxiaZhihuRN
+    |-- android // andorid code
+    |-- ios // andorid code
+    |-- node_module // node_module code
+    |-- React // React Native
+        |-- data // http api
+        |-- native // android native bridge
+        |-- ui // react naive ui page
+        |-- util // util
+        |-- widget // custom widget
+            |-- native widget//
 ```
 
 ### 如何启动React Native
@@ -61,7 +72,7 @@ npm start
 ```
 
 ## 后续优化
-* iOS客户端兼容
-* 下拉刷新问题
+* banner轮训问题
+* WebView与ScrollView兼容问题
 * ToolbarAndroid做成平台无关性
 * 性能优化
