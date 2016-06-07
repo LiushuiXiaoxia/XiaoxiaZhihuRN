@@ -22,13 +22,23 @@
 
 ![](doc/1.png)
 
+![](doc/ios_1.png)
+
 ![](doc/2.png)
+
+![](doc/ios_2.png)
 
 ![](doc/3.png)
 
+![](doc/ios_3.png)
+
 ![](doc/4.png)
 
+![](doc/ios_4.png)
+
 ![](doc/5.png)
+
+![](doc/ios_5.png)
 
 ## 使用
 
@@ -62,7 +72,7 @@ npm start
 ```
 
 ## 后续优化
-* iOS客户端兼容
-* 下拉刷新问题
+* banner轮训问题
+* WebView与ScrollView兼容问题
 * ToolbarAndroid做成平台无关性
 * 性能优化
