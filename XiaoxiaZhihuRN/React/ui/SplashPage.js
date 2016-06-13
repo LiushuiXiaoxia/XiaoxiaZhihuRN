@@ -4,10 +4,10 @@ import React, {Component} from "react";
 import {View, Text, Image, Dimensions, Navigator, AsyncStorage} from "react-native";
 import TimerMixin from "react-timer-mixin";
 import Animated from "Animated";
-import Domain from "./../data/Domain";
-import AppLog from "../util/AppLog";
 import AppUtil from "./../util/AppUtil";
 import AppStyles from "./AppStyles";
+import {doLoadLocalSplash} from "./../actions/splash";
+import {connect} from "react-redux";
 
 var ANIMATION_TIME = 1000;
 var styles = AppStyles.SplashStyle;
@@ -19,26 +19,12 @@ class SplashPage extends React.Component {
     constructor(props:any) {
         super(props);
         this.state = {
-            info: null,
             bounceValue: new Animated.Value(1),
-            isSplashed: false
         };
     }
 
     componentDidMount() {
-        var domain = new Domain();
-        // 获取本地的数据
-        domain.getStartInfoFromLocal()
-            .then((info)=> {
-                AppLog.obj(info, "SplashPage.getStartInfoFromLocal info");
-                this.setState({info: info})
-            })
-            .catch(()=> {
-            })
-            .done();
-
-        // 抓取远程的
-        domain.fetchStartInfoFromRemote();
+        this.props.dispatch(doLoadLocalSplash());
 
         this.state.bounceValue.setValue(1);
         Animated.timing(
@@ -55,10 +41,11 @@ class SplashPage extends React.Component {
     }
 
     render() {
+        var info = this.props.splash_info;
         var image, text;
-        if (this.state.info) {
-            image = {uri: this.state.info.img};
-            text = this.state.info.text;
+        if (info) {
+            image = {uri: info.img};
+            text = info.text;
         } else {
             image = require('image!splash');
             text = '';
@@ -79,7 +66,7 @@ class SplashPage extends React.Component {
                 <Text style={styles.text1}>小夏知乎日报RN版</Text>
                 <Text style={styles.text2}>{text}</Text>
             </View>
-        )
+        );
     }
 
     gotoNext() {
@@ -89,4 +76,10 @@ class SplashPage extends React.Component {
     }
 }
 
-export default SplashPage;
+function mapStateToProps(state) {
+    return {
+        splash_info: state.splash.splash_info
+    };
+}
+
+export default connect(mapStateToProps)(SplashPage);

@@ -5,13 +5,13 @@
 
 import AppLog from "../util/AppLog";
 
-const API_START_INFO_URL = "https://news-at.zhihu.com/api/4/start-image/1080*1776";
-const API_ALL_THEMES_URL = 'https://news-at.zhihu.com/api/4/themes';
-const API_HOME_STORY_LIST_URL = 'https://news-at.zhihu.com/api/4/news/latest';
-const API_NORMAL_STORY_LIST_URL = 'https://news-at.zhihu.com/api/4/theme/';
-const API_STORY_DETAIL_URL = 'https://news-at.zhihu.com/api/4/news/';
-const API_LONG_COMMENT_URL = 'https://news-at.zhihu.com/api/4/story/{id}/long-comments';
-const API_SHORT_COMMENT_URL = 'https://news-at.zhihu.com/api/4/story/{id}/short-comments';
+export const API_START_INFO_URL = "https://news-at.zhihu.com/api/4/start-image/1080*1776";
+export const API_ALL_THEMES_URL = 'https://news-at.zhihu.com/api/4/themes';
+export const API_HOME_STORY_LIST_URL = 'https://news-at.zhihu.com/api/4/news/latest';
+export const API_NORMAL_STORY_LIST_URL = 'https://news-at.zhihu.com/api/4/theme/';
+export const API_STORY_DETAIL_URL = 'https://news-at.zhihu.com/api/4/news/';
+export const API_LONG_COMMENT_URL = 'https://news-at.zhihu.com/api/4/story/{id}/long-comments';
+export const API_SHORT_COMMENT_URL = 'https://news-at.zhihu.com/api/4/story/{id}/short-comments';
 
 class Api {
 
@@ -168,4 +168,4 @@ class Api {
     }
 }
 
-export  default Api;
+export default Api;

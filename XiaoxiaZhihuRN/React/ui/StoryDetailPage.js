@@ -16,12 +16,12 @@ import {
 import ToolbarAndroid from "ToolbarAndroid";
 import Res from "../res/Res";
 import AppUtil from "../util/AppUtil";
-import Api from "./../data/HttpApi";
 import AppStyles from "./AppStyles";
-import App from "../App";
-import AppLog from "../util/AppLog";
+import {PAGE_COMMENT} from "../App";
 import AppToast from "../util/AppToast";
 import TitleBar from "./../widget/TitleBar";
+import {doLoadDetail} from "./../actions/storydetial";
+import {connect} from "react-redux";
 
 var styles = AppStyles.StoryDetail;
 
@@ -30,8 +30,7 @@ class StoryDetailPage extends React.Component {
     constructor(props:any) {
         super(props);
         this.state = {
-            renderPlaceholderOnly: true,
-            storyDetail: null
+            renderPlaceholderOnly: true
         };
     }
 
@@ -39,51 +38,40 @@ class StoryDetailPage extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             this.setState({renderPlaceholderOnly: false});
         });
-        this.getStoryDetail();
-    }
-
-    getStoryDetail() {
-        new Api().getStoryDetail(this.props.story.id)
-            .then((respJson)=> {
-                AppLog.i("StoryDetailPage.getStoryDetail respJson = " + respJson);
-
-                var storyDetail = null;
-                if (respJson) {
-                    storyDetail = respJson;
-                }
-                this.setState({
-                    storyDetail: storyDetail
-                });
-            })
-            .catch((error)=> {
-                AppLog.e("ThemeListPage.getStoryDetail error = " + error);
-            })
-            .done();
+        this.props.dispatch(doLoadDetail(this.props.story.id));
     }
 
     render() {
-        var detail = this.state.storyDetail;
+        var {storyDetail} = this.props.storydetail;
+        if (storyDetail) {
 
-        var body = '';
-        var image = null;
-        var title = '';
-        var titleSource = '';
+            var body = '';
+            var image = null;
+            var title = '';
+            var titleSource = '';
 
-        if (detail) {
-            var cssUrl = detail.css;
-            var cssString = `<link rel="stylesheet" href="${cssUrl}" type="text/css" />`;
-            body = cssString + detail.body;
-            title = detail.title;
-            titleSource = detail["image_source"];
-            if (detail.image) {
-                image = detail.image;
+            if (storyDetail) {
+                var cssUrl = storyDetail.css;
+                var cssString = `<link rel="stylesheet" href="${cssUrl}" type="text/css" />`;
+                body = cssString + storyDetail.body;
+                title = storyDetail.title;
+                titleSource = storyDetail["image_source"];
+                if (storyDetail.image) {
+                    image = storyDetail.image;
+                }
             }
+            var source = {html: body};
+
+            return (
+                <View style={styles.container}>
+                    {this.rederTitleBar()}
+                    {this.renderContent(title, titleSource, image, source)}
+                </View>
+            );
         }
-        var source = {html: body};
         return (
             <View style={styles.container}>
                 {this.rederTitleBar()}
-                {this.renderContent(title, titleSource, image, source)}
             </View>
         );
     }
@@ -180,7 +168,7 @@ class StoryDetailPage extends React.Component {
 
     onRightClicked() {
         this.props.navigator.push({
-            name: App.PAGE_COMMENT,
+            name: PAGE_COMMENT,
             params: {
                 story: this.props.story
             }
@@ -188,4 +176,10 @@ class StoryDetailPage extends React.Component {
     }
 }
 
-export default StoryDetailPage;
+function mapStateToProps(state) {
+    return {
+        storydetail: state.storydetail
+    };
+}
+
+export default connect(mapStateToProps)(StoryDetailPage);
