@@ -4,11 +4,12 @@ import React, {Component} from "react";
 import {View, Text, ListView, TouchableHighlight, InteractionManager, RefreshControl, StatusBar} from "react-native";
 import AppLog from "../util/AppLog";
 import Res from "../res/Res";
-import Api from "../data/HttpApi";
 import AppStyles from "./AppStyles";
-import App from "../App";
+import {PAGE_HOME_LIST, PAGE_NORMAL_LIST} from "../App";
 import ThemeListItem from "./ThemeListItem";
 import TitleBar from "./../widget/TitleBar";
+import {doLoadThemeList} from "./../actions/themelist";
+import {connect} from "react-redux";
 
 var styles = AppStyles.ThemeListStyle;
 
@@ -28,35 +29,16 @@ class ThemeListPage extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             this.setState({renderPlaceholderOnly: false});
         });
-        this.getAllThemes();
+        this.getAllThemes(false);
     }
 
-    getAllThemes() {
-        new Api().getAllThemes()
-            .then((respJson)=> {
-                var allThemes = [];
-                allThemes.push({
-                    name: '热门主题',
-                    id: -1
-                });
-                if (respJson && respJson.others) {
-                    allThemes = allThemes.concat(respJson.others);
-                }
-
-                this.setState({
-                    data: this.state.data.cloneWithRows(allThemes),
-                    refreshing: false
-                });
-            })
-            .done();
+    getAllThemes(isRefresh) {
+        this.props.dispatch(doLoadThemeList(isRefresh));
     }
 
     onItemClick(theme) {
         AppLog.i('ThemeListPage.onItemClick theme = ' + theme.name);
-        var name = App.PAGE_NORMAL_LIST;
-        if (theme.id == -1) {
-            name = App.PAGE_HOME_LIST;
-        }
+        var name = theme.id == -1 ? PAGE_HOME_LIST : PAGE_NORMAL_LIST;
         // 跳转到对应的主题页面
         this.props.navigator.push({
             name: name,
@@ -91,10 +73,14 @@ class ThemeListPage extends React.Component {
                 </View>
             );
         } else {
+            var {isRefresh, allThemes} = this.props.themelist;
+            if (!allThemes) {
+                allThemes = [];
+            }
             return (
                 <ListView
                     style={styles.listview}
-                    dataSource={this.state.data}
+                    dataSource={this.state.data.cloneWithRows(allThemes)}
                     enableEmptySections={true}
                     initialListSize={5}
                     renderRow={(rowData)=>{
@@ -104,7 +90,7 @@ class ThemeListPage extends React.Component {
                     }}
                     refreshControl={
                         <RefreshControl
-                            refreshing={this.state.refreshing}
+                            refreshing={isRefresh}
                             onRefresh={this._onRefresh.bind(this)}
                             tintColor='#ff0000'
                             title='Loading...'
@@ -118,8 +104,15 @@ class ThemeListPage extends React.Component {
     }
 
     _onRefresh() {
-        this.getAllThemes();
+        this.getAllThemes(true);
     }
 }
 
-export default ThemeListPage;
+
+function mapStateToProps(state) {
+    return {
+        themelist: state.themelist
+    };
+}
+
+export default connect(mapStateToProps)(ThemeListPage);

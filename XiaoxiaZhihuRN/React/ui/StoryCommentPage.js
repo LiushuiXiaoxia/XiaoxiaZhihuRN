@@ -14,13 +14,12 @@ import {
     StyleSheet,
     RefreshControl
 } from "react-native";
-import AppLog from "../util/AppLog";
 import AppUtil from "../util/AppUtil";
-import Api from "../data/HttpApi";
 import StoryCommentItem from "./StoryCommentItem";
 import Line from "../widget/Line";
 import TitleBar from "./../widget/TitleBar";
-
+import {doLoadLongCommentList, doLoadShortCommentList} from "./../actions/storycomment";
+import {connect} from "react-redux";
 
 class StoryCommentPage extends React.Component {
 
@@ -38,64 +37,13 @@ class StoryCommentPage extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             this.setState({renderPlaceholderOnly: false});
         });
-        this.getComments();
+        this.getComments(false);
     }
 
-    getComments() {
-        this.longComments = null;
-        this.shortComments = null;
-        this.doHttpRequest(true);
-        this.doHttpRequest(false);
-    }
-
-    doHttpRequest(isLong) {
-        var api = new Api();
+    getComments(isRefresh) {
         var id = this.props.story.id;
-        var promise;
-        if (isLong) {
-            promise = api.getLongCommentList(id);
-        } else {
-            promise = api.getShortCommentList(id);
-        }
-        promise
-            .then((respJson)=> {
-                if (respJson && respJson.comments) {
-                    if (isLong) {
-                        this.longComments = respJson.comments;
-                    } else {
-                        this.shortComments = respJson.comments;
-                    }
-                    this.update();
-                }
-            })
-            .catch((error)=> {
-                AppLog.e("StoryCommentPage.getComments error = " + error);
-                if (isLong) {
-                    this.longComments = [];
-                } else {
-                    this.shortComments = [];
-                }
-                this.update();
-            })
-            .done();
-    }
-
-    update() {
-        if (this.longComments && this.shortComments) {
-            var comments = [];
-            comments.push({num: this.longComments.length, isLong: true});
-            comments.push(...this.longComments);
-            comments.push({num: this.shortComments.length, isLong: false});
-            comments.push(...this.shortComments);
-            this.setState({
-                refreshing: false,
-                allComments: this.state.allComments.cloneWithRows(comments)
-            });
-
-            AppLog.i("StoryCommentPage.update comments = " + comments.length)
-
-            this.swipeRefreshLayout && this.swipeRefreshLayout.finishRefresh();
-        }
+        this.props.dispatch(doLoadLongCommentList(isRefresh, id));
+        this.props.dispatch(doLoadShortCommentList(isRefresh, id));
     }
 
     render() {
@@ -119,33 +67,23 @@ class StoryCommentPage extends React.Component {
                 </View>
             );
         } else {
+            var {longs, shorts, isRefresh} = this.props.storycomment;
+            var comments = [];
+            comments.push({num: longs.length, isLong: true});
+            comments.push(...longs);
+            comments.push({num: shorts.length, isLong: false});
+            comments.push(...shorts);
+
             return (
                 <ListView
                     style={styles.listview}
-                    dataSource={this.state.allComments}
+                    dataSource={this.state.allComments.cloneWithRows(comments)}
                     enableEmptySections={true}
                     initialListSize={3}
-                    renderRow={(comment)=>{
-                        if (comment.hasOwnProperty('isLong')) {
-                            var text = '';
-                            if (comment.isLong) {
-                                text = comment.num + '条长评';
-                            } else {
-                                text = comment.num + '条短评';
-                            }
-                            return (
-                            <View>
-                                <Text style={{margin:10}}>{text}</Text>
-                                <Line />
-                            </View>
-                            );
-                        } else {
-                            return (<StoryCommentItem comment={comment}/>);
-                        }
-                    }}
+                    renderRow={this.renderListViewRow.bind(this)}
                     refreshControl={
                         <RefreshControl
-                            refreshing={this.state.refreshing}
+                            refreshing={isRefresh}
                             onRefresh={this.onRefresh.bind(this)}
                             tintColor='#ff0000'
                             title='Loading...'
@@ -158,9 +96,27 @@ class StoryCommentPage extends React.Component {
         }
     }
 
+    renderListViewRow(comment) {
+        if (comment.hasOwnProperty('isLong')) {
+            var text = '';
+            if (comment.isLong) {
+                text = comment.num + '条长评';
+            } else {
+                text = comment.num + '条短评';
+            }
+            return (
+                <View>
+                    <Text style={{margin:10}}>{text}</Text>
+                    <Line />
+                </View>
+            );
+        } else {
+            return (<StoryCommentItem comment={comment}/>);
+        }
+    }
+
     onRefresh() {
-        this.swipeRefreshLayout && this.swipeRefreshLayout.startRefresh();
-        this.getComments();
+        this.getComments(true);
     }
 
     onIconClicked() {
@@ -180,4 +136,10 @@ var styles = StyleSheet.create({
     }
 });
 
-export default StoryCommentPage;
+function mapStateToProps(state) {
+    return {
+        storycomment: state.storycomment
+    };
+}
+
+export default connect(mapStateToProps)(StoryCommentPage);

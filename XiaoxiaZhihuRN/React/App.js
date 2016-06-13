@@ -12,15 +12,15 @@ import StoryListNormalPage from "./ui/StoryListNormalPage";
 import StoryDetailPage from "./ui/StoryDetailPage";
 import StoryCommentPage from "./ui/StoryCommentPage";
 
-const PAGE_SPLASH = 'splash';
-const PAGE_THEME_LIST = 'theme_list';
-const PAGE_HOME_LIST = 'home_list';
-const PAGE_NORMAL_LIST = 'normal_list';
-const PAGE_DETAIL = 'detail';
-const PAGE_COMMENT = 'comment';
+export const PAGE_SPLASH = 'splash';
+export const PAGE_THEME_LIST = 'theme_list';
+export const PAGE_HOME_LIST = 'home_list';
+export const PAGE_NORMAL_LIST = 'normal_list';
+export const PAGE_DETAIL = 'detail';
+export const PAGE_COMMENT = 'comment';
 
 // 页面配置
-var pageConfig = {};
+let pageConfig = {};
 pageConfig[PAGE_SPLASH] = SplashPage;
 pageConfig[PAGE_THEME_LIST] = ThemeListPage;
 pageConfig[PAGE_HOME_LIST] = StoryListHomePage;
@@ -63,7 +63,7 @@ var Transitions = {
 };
 
 
-var renderScene = function (route, navigator) {
+function renderScene(route, navigator) {
     AppLog.i("newRenderScene: name = " + route.name);
     if (!_navigator) {
         _navigator = navigator;
@@ -78,25 +78,13 @@ var renderScene = function (route, navigator) {
         return (<Component {...route.params} navigator={navigator}/>);
     }
     AppToast.showLong("navigator error!!!");
-};
+}
 
-var App = {
-
-    PAGE_SPLASH,
-    PAGE_THEME_LIST,
-    PAGE_HOME_LIST,
-    PAGE_NORMAL_LIST,
-    PAGE_DETAIL,
-    PAGE_COMMENT,
-
-    newNaviagtor: function () {
-        return (
-            <Navigator
-                initialRoute={{name: PAGE_SPLASH}}
-                configureScene={() => ({...Navigator.SceneConfigs.HorizontalSwipeJump, gestures:null})}
-                renderScene={renderScene}/>
-        );
-    }
-};
-
-export default App;
+export function newNaviagtor() {
+    return (
+        <Navigator
+            initialRoute={{name: PAGE_SPLASH}}
+            configureScene={() => ({...Navigator.SceneConfigs.HorizontalSwipeJump, gestures:null})}
+            renderScene={renderScene}/>
+    );
+}

@@ -12,14 +12,15 @@ import {
     ScrollView,
     Platform
 } from "react-native";
-import Api from "../data/HttpApi";
 import AppUtil from "../util/AppUtil";
 import AppStyles from "./AppStyles";
-import App from "../App";
+import {PAGE_DETAIL} from "../App";
 import AppLog from "../util/AppLog";
 import StoryListItem from "./StoryListItem";
 import TitleBar from "./../widget/TitleBar";
 import Carousel from "react-native-carousel";
+import {doLoadHomeList} from "./../actions/storylist";
+import {connect} from "react-redux";
 
 var styles = AppStyles.StoryListStyle;
 
@@ -30,10 +31,6 @@ class StoryListHomePage extends React.Component {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             renderPlaceholderOnly: true,
-            refreshing: false,
-            topStories: [],
-            // stories: ds.cloneWithRows([]),
-            stories: []
         };
     }
 
@@ -41,41 +38,18 @@ class StoryListHomePage extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             this.setState({renderPlaceholderOnly: false});
         });
-        this.getHomeStoryList();
+        this.getHomeStoryList(false);
     }
 
-    getHomeStoryList() {
-        new Api()
-            .getHomeStoryList()
-            .then((respJson)=> {
-                var stories = [];
-                if (respJson && respJson.stories) {
-                    stories.push(...respJson.stories);
-                }
-                var topStories = [];
-                if (respJson && respJson['top_stories']) {
-                    topStories.push(...respJson['top_stories']);
-                }
-                this.setState({
-                    refreshing: false,
-                    topStories: topStories,
-                    // stories: this.state.stories.cloneWithRows(stories),
-                    stories: stories
-                });
-            })
-            .catch((error)=> {
-                AppLog.e("StoryListHomePage.getHomeStoryList error = " + error);
-            })
-            .finally(()=> {
-                this.swipeRefreshLayout && this.swipeRefreshLayout.finishRefresh();
-            });
+    getHomeStoryList(isRefresh) {
+        this.props.dispatch(doLoadHomeList(isRefresh));
     }
 
     onItemClick(story:Object) {
         AppLog.i("StoryListHomePage.onItemClick story = " + story.title);
 
         this.props.navigator.push({
-            name: App.PAGE_DETAIL,
+            name: PAGE_DETAIL,
             params: {
                 story: story
             }
@@ -103,9 +77,13 @@ class StoryListHomePage extends React.Component {
                 </View>
             );
         } else {
+            var {isRefresh, stories} = this.props.storylist;
+            if (!stories) {
+                stories = [];
+            }
+
             var views = [];
             views.push(this.renderHeader());
-            var stories = this.state.stories;
             var length = stories.length;
             for (var i = 0; i < length; i++) {
                 views.push((
@@ -120,7 +98,7 @@ class StoryListHomePage extends React.Component {
                     style={{flex:1,width:AppUtil.WINDOW_WIDTH}}
                     refreshControl={
                         <RefreshControl
-                            refreshing={this.state.refreshing}
+                            refreshing={isRefresh}
                             onRefresh={this.onRefresh.bind(this)}
                             tintColor='#ff0000'
                             title='Loading...'
@@ -135,11 +113,11 @@ class StoryListHomePage extends React.Component {
     }
 
     renderHeader() {
-        var tops = this.state.topStories;
+        var {topStories} = this.props.storylist;
         var views = [];
         var headherHeight = 220;
-        for (let i = 0; i < tops.length; i++) {
-            let top = tops[i];
+        for (let i = 0; i < topStories.length; i++) {
+            let top = topStories[i];
             views.push((
                 <View key={"list_key"+i}
                       style={{flex:1,width:AppUtil.WINDOW_WIDTH, height: headherHeight,
@@ -187,8 +165,7 @@ class StoryListHomePage extends React.Component {
     }
 
     onRefresh() {
-        this.swipeRefreshLayout && this.swipeRefreshLayout.startRefresh();
-        this.getHomeStoryList();
+        this.getHomeStoryList(true);
     }
 
     onIconClicked() {
@@ -196,4 +173,10 @@ class StoryListHomePage extends React.Component {
     }
 }
 
-export default StoryListHomePage;
+function mapStateToProps(state) {
+    return {
+        storylist: state.storylist
+    };
+}
+
+export default connect(mapStateToProps)(StoryListHomePage);
