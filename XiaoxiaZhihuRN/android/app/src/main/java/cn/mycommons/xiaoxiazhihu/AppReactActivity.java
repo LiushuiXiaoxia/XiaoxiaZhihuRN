@@ -1,8 +1,13 @@
 package cn.mycommons.xiaoxiazhihu;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.widget.EditText;
 
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
@@ -12,33 +17,54 @@ import com.facebook.react.shell.MainReactPackage;
 
 import cn.mycommons.xiaoxiazhihu.module.AndroidReactPackage;
 
+
 public class AppReactActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
+    private LifecycleState mLifecycleState = LifecycleState.BEFORE_RESUME;
+    private boolean mDoRefresh = false;
     private ReactRootView mReactRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mReactRootView = new ReactRootView(this);
-        mReactInstanceManager = ReactInstanceManager.builder()
-                .setApplication(getApplication())
-                .setBundleAssetName("index.android.bundle")
-                .setJSMainModuleName("index.android")
-                .addPackage(new MainReactPackage())
-                .addPackage(new AndroidReactPackage())
-                .setUseDeveloperSupport(BuildConfig.DEBUG)
-                .setInitialLifecycleState(LifecycleState.RESUMED)
-                .build();
-        mReactRootView.startReactApplication(mReactInstanceManager, "XiaoxiaZhihuRN", null);
+        checkCanDrawOverlays();
 
+        mReactInstanceManager = createReactInstanceManager();
+        mReactRootView = new ReactRootView(this);
+        mReactRootView.startReactApplication(mReactInstanceManager, "XiaoxiaZhihuRN", null);
         setContentView(mReactRootView);
+    }
+
+    private void checkCanDrawOverlays() {
+        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            Intent serviceIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+            startActivity(serviceIntent);
+        }
+    }
+
+    private ReactInstanceManager createReactInstanceManager() {
+        ReactInstanceManager.Builder builder = ReactInstanceManager.builder()
+                .setApplication(getApplication())
+                .setJSMainModuleName("index.android")
+                .setUseDeveloperSupport(BuildConfig.DEBUG)
+                .setInitialLifecycleState(mLifecycleState)
+                .addPackage(new MainReactPackage())
+                .addPackage(new AndroidReactPackage());
+
+        // String jsBundleFile = null;
+        // builder.setJSBundleFile(jsBundleFile);
+        builder.setBundleAssetName("index.android.bundle");
+
+        return builder.build();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        mLifecycleState = LifecycleState.RESUMED;
 
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onHostResume(this, this);
@@ -49,6 +75,8 @@ public class AppReactActivity extends AppCompatActivity implements DefaultHardwa
     protected void onPause() {
         super.onPause();
 
+        mLifecycleState = LifecycleState.BEFORE_RESUME;
+
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onHostPause();
         }
@@ -57,9 +85,46 @@ public class AppReactActivity extends AppCompatActivity implements DefaultHardwa
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mReactInstanceManager.onHostDestroy();
-        mReactInstanceManager = null;
-        mReactRootView = null;
+
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.destroy();
+            mReactInstanceManager = null;
+            mReactRootView = null;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (mReactInstanceManager != null &&
+                mReactInstanceManager.getDevSupportManager().getDevSupportEnabled()) {
+            if (keyCode == KeyEvent.KEYCODE_MENU) {
+                mReactInstanceManager.showDevOptionsDialog();
+                return true;
+            }
+            if (keyCode == KeyEvent.KEYCODE_R && !(getCurrentFocus() instanceof EditText)) {
+                // Enable double-tap-R-to-reload
+                if (mDoRefresh) {
+                    mReactInstanceManager.getDevSupportManager().handleReloadJS();
+                    mDoRefresh = false;
+                } else {
+                    mDoRefresh = true;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDoRefresh = false;
+                        }
+                    }, 200);
+                }
+            }
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override
@@ -69,15 +134,6 @@ public class AppReactActivity extends AppCompatActivity implements DefaultHardwa
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU && mReactInstanceManager != null) {
-            mReactInstanceManager.showDevOptionsDialog();
-            return true;
-        }
-        return super.onKeyUp(keyCode, event);
     }
 
     @Override
