@@ -71,6 +71,20 @@ npm start
 ./gradew installDebug
 ```
 
+## 修改记录
+
+### v0.0.3
+ * 使用redux模式 
+
+### v0.0.2
+ * 支持iOS
+ * banner轮训支持iOS
+
+
+### v0.0.1
+ * 完成基本功能
+
+
 ## 后续优化
 * banner轮训问题
 * WebView与ScrollView兼容问题
