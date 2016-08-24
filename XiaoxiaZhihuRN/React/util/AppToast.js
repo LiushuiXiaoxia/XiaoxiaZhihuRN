@@ -9,13 +9,13 @@ var Toast = {
     // SHORT: NativeModules.AppToast.SHORT,
     // LONG: NativeModules.AppToast.LONG,
 
-    show: function (message:string, duration:number):void {
+    show: function (message: string, duration: number): void {
         // NativeModules.AppToast.show(message, duration);
     },
-    showLong: function (message:string) {
+    showLong: function (message: string) {
         // NativeModules.AppToast.show(message, NativeModules.AppToast.LONG);
     },
-    showShort: function (message:string) {
+    showShort: function (message: string) {
         // NativeModules.AppToast.show(message, NativeModules.AppToast.SHORT);
     }
 };

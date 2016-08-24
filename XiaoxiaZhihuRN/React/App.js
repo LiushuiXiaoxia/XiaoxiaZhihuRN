@@ -2,7 +2,6 @@
 import React, {Component} from "react";
 import {Navigator} from "react-native";
 import BackAndroid from "BackAndroid";
-import buildStyleInterpolator from "buildStyleInterpolator";
 import AppLog from "./util/AppLog";
 import AppToast from "./util/AppToast";
 import SplashPage from "./ui/SplashPage";
@@ -40,29 +39,6 @@ BackAndroid.addEventListener('hardwareBackPress', function () {
     return true;
 });
 
-var NoTransition = {
-    opacity: {
-        from: 1,
-        to: 1,
-        min: 1,
-        max: 1,
-        type: 'linear',
-        extrapolate: false,
-        round: 100
-    }
-};
-
-var Transitions = {
-    ...Navigator.SceneConfigs.FloatFromBottomAndroid,
-    gestures: null,
-    defaultTransitionVelocity: 1000,
-    animationInterpolators: {
-        into: buildStyleInterpolator(NoTransition),
-        out: buildStyleInterpolator(NoTransition)
-    }
-};
-
-
 function renderScene(route, navigator) {
     AppLog.i("newRenderScene: name = " + route.name);
     if (!_navigator) {
@@ -84,7 +60,7 @@ export function newNaviagtor() {
     return (
         <Navigator
             initialRoute={{name: PAGE_SPLASH}}
-            configureScene={() => ({...Navigator.SceneConfigs.HorizontalSwipeJump, gestures:null})}
+            configureScene={() => ({...Navigator.SceneConfigs.HorizontalSwipeJump, gestures: null})}
             renderScene={renderScene}/>
     );
 }

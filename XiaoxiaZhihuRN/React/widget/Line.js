@@ -1,11 +1,11 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from "react";
 import {View} from "react-native";
 
 class Line extends React.Component {
 
-    constructor(props:any) {
+    constructor(props) {
         super(props);
         this.state = {
             spaceLeft: 10,
@@ -17,7 +17,7 @@ class Line extends React.Component {
         var spaceLeft = this.props.spaceLeft;
         var spaceRight = this.props.spaceRight;
         return (
-            <View style={{height:0.5, backgroundColor:'#ccc', marginLeft:spaceLeft, marginRight:spaceRight}}/>
+            <View style={{height: 0.7, backgroundColor: '#ccc', marginLeft: spaceLeft, marginRight: spaceRight}}/>
         )
     }
 }

@@ -16,11 +16,8 @@ class ThemeListItem extends React.Component {
         var theme = this.props.theme;
         return (
             <TouchableHighlight onPress={()=>this.onItemClick(theme)}>
-                <View style={{flex:1, flexDirection: 'column',backgroundColor:'white'}}>
-                    <Text style={{
-                            flex:1,
-                            margin:15,
-                            color:'#333'}}>
+                <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white'}}>
+                    <Text style={{flex: 1, margin: 15, color: '#333'}}>
                         {theme.name }
                     </Text>
                     <Line/>

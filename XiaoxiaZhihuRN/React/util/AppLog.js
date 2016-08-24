@@ -6,15 +6,15 @@
 var {NativeModules} = require('react-native');
 
 var Log = {
-    i: function (message:string):void {
+    i: function (message: string): void {
         // NativeModules.AppLog.i(message);
         console.log(message)
     },
-    e: function (message:string):void {
+    e: function (message: string): void {
         // NativeModules.AppLog.e(message);
         console.error(message)
     },
-    obj: function (obj:Object, desc:String = ''):void {
+    obj: function (obj: Object, desc: String = ''): void {
         this.i(desc);
         if (obj) {
             var i = 0;

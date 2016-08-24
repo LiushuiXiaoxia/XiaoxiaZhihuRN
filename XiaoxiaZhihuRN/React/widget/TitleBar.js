@@ -8,7 +8,7 @@ import AppUtil from "../util/AppUtil";
 
 class TitleBar extends React.Component {
 
-    constructor(props:any) {
+    constructor(props: any) {
         super(props);
         this.state = {};
     }
@@ -37,28 +37,42 @@ class TitleBar extends React.Component {
         var onRightClicked = this.props.onRightClicked ? this.props.onRightClicked : null;
         return (
             <View style={{
-                width:AppUtil.WINDOW_WIDTH,
-                height:navBarHeight + titleBarHeight,
-                flexDirection:'row',
+                width: AppUtil.WINDOW_WIDTH,
+                height: navBarHeight + titleBarHeight,
+                flexDirection: 'row',
                 // justifyContent:'center',
-                alignItems:'center',
-                backgroundColor:'#303F9F',
-                paddingTop:titleBarHeight
-                }}>
-                <TouchableHighlight onPress={()=>{if(onLeftClicked){onLeftClicked()}}} underlayColor="#303F9F30">
+                alignItems: 'center',
+                backgroundColor: '#303F9F',
+                paddingTop: titleBarHeight
+            }}>
+                <TouchableHighlight onPress={()=> {
+                    if (onLeftClicked) {
+                        onLeftClicked()
+                    }
+                }} underlayColor="#303F9F30">
                     <Image
-                        style={{width:navButtonSize,height:navButtonSize,
-                            marginLeft:(navBarHeight-navButtonSize)/2}}
+                        style={{
+                            width: navButtonSize, height: navButtonSize,
+                            marginLeft: (navBarHeight - navButtonSize) / 2
+                        }}
                         source={navIcon}
                         resizeMode="cover"
                     />
                 </TouchableHighlight>
-                <Text style={{flex:1, fontSize:20,color:Res.colorTitleColor,textAlign:'center'}}>
+                <Text style={{flex: 1, fontSize: 20, color: Res.colorTitleColor, textAlign: 'center'}}>
                     {title}
                 </Text>
-                <TouchableHighlight onPress={()=>{if(onRightClicked){onRightClicked()}}} underlayColor="#303F9F30">
+                <TouchableHighlight onPress={()=> {
+                    if (onRightClicked) {
+                        onRightClicked()
+                    }
+                }} underlayColor="#303F9F30">
                     <Image
-                        style={{width:navButtonSize,height:navButtonSize, marginRight:(navBarHeight-navButtonSize)/2}}
+                        style={{
+                            width: navButtonSize,
+                            height: navButtonSize,
+                            marginRight: (navBarHeight - navButtonSize) / 2
+                        }}
                         source={editIcon}
                     />
                 </TouchableHighlight>

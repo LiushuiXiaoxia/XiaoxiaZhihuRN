@@ -26,7 +26,7 @@ var styles = AppStyles.StoryListStyle;
 
 class StoryListHomePage extends React.Component {
 
-    constructor(props:any) {
+    constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
@@ -45,7 +45,7 @@ class StoryListHomePage extends React.Component {
         this.props.dispatch(doLoadHomeList(isRefresh));
     }
 
-    onItemClick(story:Object) {
+    onItemClick(story) {
         AppLog.i("StoryListHomePage.onItemClick story = " + story.title);
 
         this.props.navigator.push({
@@ -72,7 +72,7 @@ class StoryListHomePage extends React.Component {
     renderContent() {
         if (this.state.renderPlaceholderOnly) {
             return (
-                <View style={{flex:1, justifyContent:'center'}}>
+                <View style={{flex: 1, justifyContent: 'center'}}>
                     <Text>正在加载中...</Text>
                 </View>
             );
@@ -87,7 +87,8 @@ class StoryListHomePage extends React.Component {
             var length = stories.length;
             for (var i = 0; i < length; i++) {
                 views.push((
-                    <StoryListItem key={"scroll_key_"+i} story={stories[i]} onItemClick={this.onItemClick.bind(this)}/>
+                    <StoryListItem key={"scroll_key_" + i} story={stories[i]}
+                                   onItemClick={this.onItemClick.bind(this)}/>
                 ));
             }
 
@@ -95,7 +96,7 @@ class StoryListHomePage extends React.Component {
                 <ScrollView
                     automaticallyAdjustContentInsets={false}
                     horizontal={false}
-                    style={{flex:1,width:AppUtil.WINDOW_WIDTH}}
+                    style={{flex: 1, width: AppUtil.WINDOW_WIDTH}}
                     refreshControl={
                         <RefreshControl
                             refreshing={isRefresh}
@@ -119,13 +120,17 @@ class StoryListHomePage extends React.Component {
         for (let i = 0; i < topStories.length; i++) {
             let top = topStories[i];
             views.push((
-                <View key={"list_key"+i}
-                      style={{flex:1,width:AppUtil.WINDOW_WIDTH, height: headherHeight,
-                        alignItems: 'center'}}>
+                <View key={"list_key" + i}
+                      style={{
+                          flex: 1, width: AppUtil.WINDOW_WIDTH, height: headherHeight,
+                          alignItems: 'center'
+                      }}>
                     <Image source={{uri: top.image}}
-                           style={{width:AppUtil.WINDOW_WIDTH, height: headherHeight,justifyContent:'flex-end'}}>
-                        <Text style={[styles.header_text,{color:'#fff', marginLeft:20,marginRight:20,marginBottom:30,
-                            fontSize:15}]}
+                           style={{width: AppUtil.WINDOW_WIDTH, height: headherHeight, justifyContent: 'flex-end'}}>
+                        <Text style={[styles.header_text, {
+                            color: '#fff', marginLeft: 20, marginRight: 20, marginBottom: 30,
+                            fontSize: 15
+                        }]}
                         >{top.title}</Text>
                     </Image>
                 </View>
@@ -157,7 +162,7 @@ class StoryListHomePage extends React.Component {
         return (
             <ViewPagerAndroid
                 key={"viewpagerandroid"}
-                style={{width: AppUtil.WINDOW_WIDTH, height: 220,alignItems: 'center'}}
+                style={{width: AppUtil.WINDOW_WIDTH, height: 220, alignItems: 'center'}}
                 initialPage={0}>
                 {views}
             </ViewPagerAndroid>

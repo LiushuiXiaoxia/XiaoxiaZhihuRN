@@ -15,7 +15,7 @@ var styles = AppStyles.ThemeListStyle;
 
 class ThemeListPage extends React.Component {
 
-    constructor(props:any) {
+    constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
@@ -68,7 +68,7 @@ class ThemeListPage extends React.Component {
     renderContent() {
         if (this.state.renderPlaceholderOnly) {
             return (
-                <View style={{flex:1, justifyContent:'center'}}>
+                <View style={{flex: 1, justifyContent: 'center'}}>
                     <Text>正在加载中...</Text>
                 </View>
             );
@@ -82,8 +82,7 @@ class ThemeListPage extends React.Component {
                     style={styles.listview}
                     dataSource={this.state.data.cloneWithRows(allThemes)}
                     enableEmptySections={true}
-                    initialListSize={5}
-                    renderRow={(rowData)=>{
+                    renderRow={(rowData)=> {
                         return (
                             <ThemeListItem theme={rowData} onItemClick={this.onItemClick.bind(this)}/>
                         );

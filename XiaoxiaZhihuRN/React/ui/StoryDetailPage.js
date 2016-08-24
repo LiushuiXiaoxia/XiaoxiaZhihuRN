@@ -27,7 +27,7 @@ var styles = AppStyles.StoryDetail;
 
 class StoryDetailPage extends React.Component {
 
-    constructor(props:any) {
+    constructor(props: any) {
         super(props);
         this.state = {
             renderPlaceholderOnly: true
@@ -97,10 +97,10 @@ class StoryDetailPage extends React.Component {
                     onIconClicked={this.onIconClicked.bind(this)}
                     onActionSelected={this.onActionSelected.bind(this)}
                     actions={[
-                    {title:'分享',icon:require('image!ic_share_white'),show:'always'},
-                    {title:'收藏',icon:require('image!ic_favorites_white'),show:'always'},
-                    {title:'评论',icon:require('image!ic_comment_white'),show:'always',showWithText:true},
-                    {title:'点赞',icon:require('image!ic_praise_white'),show:'always',showWithText:true}
+                        {title: '分享', icon: require('image!ic_share_white'), show: 'always'},
+                        {title: '收藏', icon: require('image!ic_favorites_white'), show: 'always'},
+                        {title: '评论', icon: require('image!ic_comment_white'), show: 'always', showWithText: true},
+                        {title: '点赞', icon: require('image!ic_praise_white'), show: 'always', showWithText: true}
                     ]}
                 />
             );
@@ -131,11 +131,11 @@ class StoryDetailPage extends React.Component {
                     scalesPageToFit={scalesPageToFit}
                     automaticallyAdjustContentInsets={false}
                     style={{
-                            flex: 1,
-                            width: AppUtil.WINDOW_WIDTH,
-                            height: AppUtil.WINDOW_HEIGHT - styles.header_image.height,
-                            alignSelf: 'stretch'
-                         }}
+                        flex: 1,
+                        width: AppUtil.WINDOW_WIDTH,
+                        height: AppUtil.WINDOW_HEIGHT - styles.header_image.height,
+                        alignSelf: 'stretch'
+                    }}
                 />
             );
             return views;
@@ -144,7 +144,7 @@ class StoryDetailPage extends React.Component {
 
     static newLoadingView() {
         return (
-            <View style={{flex:1, justifyContent:'center'}}>
+            <View style={{flex: 1, justifyContent: 'center'}}>
                 <Text>正在加载中...</Text>
             </View>
         );

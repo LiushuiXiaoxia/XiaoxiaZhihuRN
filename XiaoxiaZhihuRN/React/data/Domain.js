@@ -12,7 +12,7 @@ const KEY_START_INFO = 'start_info';
 
 class Domain {
 
-    getStartInfoFromLocal():Promise {
+    getStartInfoFromLocal() {
         var key = KEY_START_INFO;
         return new Promise((resolve, reject) => {
             AsyncStorage.getItem(

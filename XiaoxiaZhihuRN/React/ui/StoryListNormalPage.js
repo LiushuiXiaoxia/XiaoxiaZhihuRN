@@ -13,7 +13,7 @@ var styles = AppStyles.StoryHomeListStyle;
 
 class StoryListNormalPage extends React.Component {
 
-    constructor(props:any) {
+    constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
@@ -33,7 +33,7 @@ class StoryListNormalPage extends React.Component {
         this.props.dispatch(doLoadNormalList(isRefresh, this.props.theme.id));
     }
 
-    onItemClick(story:Object) {
+    onItemClick(story) {
         AppLog.i("StoryListNormalPage.onItemClick story = " + story.title);
 
         this.props.navigator.push({
@@ -60,7 +60,7 @@ class StoryListNormalPage extends React.Component {
     renderContent() {
         if (this.state.renderPlaceholderOnly) {
             return (
-                <View style={{flex:1, justifyContent:'center'}}>
+                <View style={{flex: 1, justifyContent: 'center'}}>
                     <Text>正在加载中...</Text>
                 </View>
             );
@@ -75,7 +75,7 @@ class StoryListNormalPage extends React.Component {
                     dataSource={this.state.data.cloneWithRows(stories)}
                     enableEmptySections={true}
                     initialListSize={5}
-                    renderHeader={()=>{
+                    renderHeader={()=> {
                         return (
                             <Image
                                 style={styles.header_image}
@@ -84,7 +84,7 @@ class StoryListNormalPage extends React.Component {
                             </Image>
                         );
                     }}
-                    renderRow={(rowData)=>{
+                    renderRow={(rowData)=> {
                         return (
                             <StoryListItem story={rowData} onItemClick={this.onItemClick.bind(this)}/>
                         );

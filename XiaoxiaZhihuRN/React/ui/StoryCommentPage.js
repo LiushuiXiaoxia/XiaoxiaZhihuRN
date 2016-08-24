@@ -23,7 +23,7 @@ import {connect} from "react-redux";
 
 class StoryCommentPage extends React.Component {
 
-    constructor(props:any) {
+    constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
@@ -62,7 +62,7 @@ class StoryCommentPage extends React.Component {
     renderContent() {
         if (this.state.renderPlaceholderOnly) {
             return (
-                <View style={{flex:1, justifyContent:'center'}}>
+                <View style={{flex: 1, justifyContent: 'center'}}>
                     <Text>正在加载中...</Text>
                 </View>
             );
@@ -106,7 +106,7 @@ class StoryCommentPage extends React.Component {
             }
             return (
                 <View>
-                    <Text style={{margin:10}}>{text}</Text>
+                    <Text style={{margin: 10}}>{text}</Text>
                     <Line />
                 </View>
             );

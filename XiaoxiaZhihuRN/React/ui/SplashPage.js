@@ -16,7 +16,7 @@ class SplashPage extends React.Component {
 
     mixins = [TimerMixin];
 
-    constructor(props:any) {
+    constructor(props) {
         super(props);
         this.state = {
             bounceValue: new Animated.Value(1),
@@ -54,15 +54,15 @@ class SplashPage extends React.Component {
             <View style={styles.container}>
                 <Animated.Image source={image}
                                 style={{
-                                flex:1,
-                                width: AppUtil.WINDOW_WIDTH,
-                                height: AppUtil.WINDOW_HEIGHT,
-                                transform: [
-                                  {scale: this.state.bounceValue}
-                                ],
-                                position: 'absolute'
+                                    flex: 1,
+                                    width: AppUtil.WINDOW_WIDTH,
+                                    height: AppUtil.WINDOW_HEIGHT,
+                                    transform: [
+                                        {scale: this.state.bounceValue}
+                                    ],
+                                    position: 'absolute'
                                 }}/>
-                <View style={{flex:1}}/>
+                <View style={{flex: 1}}/>
                 <Text style={styles.text1}>小夏知乎日报RN版</Text>
                 <Text style={styles.text2}>{text}</Text>
             </View>
