@@ -34,5 +34,5 @@ android:
     - 'google-gdk-license-.+'
 
 script:
-  - npm run ci #2
+  # - npm run ci #2
   - cd XiaoxiaZhihuRN && npm install && cd android && ./gradlew build

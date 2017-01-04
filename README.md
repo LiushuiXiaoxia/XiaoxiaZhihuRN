@@ -8,6 +8,8 @@
 
 本项目使用React Native进行开发
 
+[![Build Status](https://travis-ci.org/LiushuiXiaoxia/XiaoxiaZhihuRN.svg?branch=master)](https://travis-ci.org/LiushuiXiaoxia/XiaoxiaZhihuRN)
+
 ## 其他客户端
 
 [XiaoxiaZhihu iOS客户端](https://github.com/LiushuiXiaoxia/XiaoxiaZhihu_iOS)
