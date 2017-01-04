@@ -1,0 +1,38 @@
+language: android
+
+jdk:
+  - oraclejdk8
+
+before_install: #1.1
+- nvm install 6
+- node --version
+
+# install: #1.2
+# - npm install
+
+android:
+  components:
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    - platform-tools
+    - tools
+
+    # The BuildTools version used by your project
+    - build-tools-24.0.3
+
+    # The SDK version used to compile your project
+    - android-24
+    #- android-14
+
+    # Additional components
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
+script:
+  - npm run ci #2
+  - cd XiaoxiaZhihuRN && npm install && cd android && ./gradlew build
